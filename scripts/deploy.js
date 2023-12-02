@@ -17,16 +17,15 @@ async function main() {
   );
 
 //deploying IERC20
-const tokenAddress = '0xB3353dcE62550b46E6bd423022448241ac40D3A4'; // 例: "0x123..."
+const tokenAddress = process.env.TOKEN_ADDRESS; // 例: "0x123..."
 const tokenContract = await ethers.getContractAt("IERC20", tokenAddress);
 const tokenName = await tokenContract.name();
 
-console.log("Contract deployed at:", tokenAddress);
-
+console.log("Token name:", tokenName);
 // Calling the transfer function of the IERC20 contract
 // Replace 'recipientAddress' and 'amount' with actual values
-  const recipientAddress = "0xbeB0e66B9c81E055534aEddF9026BD4C48C6CBA9"; // Recipient's address
-  const amount = ethers.utils.parseUnits("1.0", 18); // ここは string型
+  const recipientAddress = "0x216317a44771b7C71a182f2b0b52786c3Ca3Ef30"; // Recipient's address
+  const amount = ethers.utils.parseUnits("50.0", 18); // ここは string型
 
   try {
     const transferResult = await tokenContract.transfer(recipientAddress, amount);
