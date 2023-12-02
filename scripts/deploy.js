@@ -26,10 +26,14 @@ console.log("Contract deployed at:", tokenAddress);
 // Calling the transfer function of the IERC20 contract
 // Replace 'recipientAddress' and 'amount' with actual values
   const recipientAddress = "0xbeB0e66B9c81E055534aEddF9026BD4C48C6CBA9"; // Recipient's address
-  const amount = ethers.utils.parseUnits(1.0, 18); // Amount to transfer (1.0 token, for example)
+  const amount = ethers.utils.parseUnits("1.0", 18); // ここは string型
 
-  const transferResult = await ierc20Contract.transfer(recipientAddress, amount);
-  console.log("Transfer result:", transferResult);
+  try {
+    const transferResult = await tokenContract.transfer(recipientAddress, amount);
+    console.log("Transfer result:", transferResult);
+  } catch (error) {
+    console.error("Error in transfer:", error);
+  }
 }
 
 main()
