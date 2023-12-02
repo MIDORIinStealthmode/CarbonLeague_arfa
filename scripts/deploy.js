@@ -4,6 +4,8 @@
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
+require('dotenv').config();
+
 async function main() {
 
   //getting the list of signers account from ethers.js
@@ -14,19 +16,20 @@ async function main() {
   deployer.address
   );
 
-  //ethers.js method ContractFactory. This will look for the HelloWorld.sol file, and return an instance that we can use ContractFactory methods on.
-  const HelloWorld = await ethers.getContractFactory("HelloWorld");
-  const contract = await HelloWorld.deploy();
+//deploying IERC20
+const tokenAddress = '0xB3353dcE62550b46E6bd423022448241ac40D3A4'; // 例: "0x123..."
+const tokenContract = await ethers.getContractAt("IERC20", tokenAddress);
+const tokenName = await tokenContract.name();
 
-  const IERC20 = await ethers.getContractFactory("IERC20");
-  const contract2 = await IERC20.deploy();
+console.log("Contract deployed at:", tokenAddress);
 
-  console.log("Contract deployed at:", contract.address);
+// Calling the transfer function of the IERC20 contract
+// Replace 'recipientAddress' and 'amount' with actual values
+  const recipientAddress = "0xbeB0e66B9c81E055534aEddF9026BD4C48C6CBA9"; // Recipient's address
+  const amount = ethers.utils.parseUnits(1.0, 18); // Amount to transfer (1.0 token, for example)
 
-  //デプロイ済みのコントラクトの speak 関数を呼び出している.
-  const saySomething = await contract.speak();
-  
-  console.log("saySomething value:", saySomething);
+  const transferResult = await ierc20Contract.transfer(recipientAddress, amount);
+  console.log("Transfer result:", transferResult);
 }
 
 main()
