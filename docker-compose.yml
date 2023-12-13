@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - ethereum
+
+  ethereum:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: 'npx hardhat node'
+    ports:
+      - "8545:8545"
