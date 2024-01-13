@@ -123,6 +123,9 @@ erDiagram
         bigint treasure_id FK "トレジャーID"
     }
 
+    competitions ||--o{ competition_rewards: "報酬情報"
+    treasures ||--o{ competition_rewards: "報酬情報"
     competitions ||--o{ competition_entries: "エントリー情報"
+    competition_entries ||--o{ competition_entry_treasures: "エントリー情報"
     users ||--o{ competition_entries: "エントリー情報"
 ```
