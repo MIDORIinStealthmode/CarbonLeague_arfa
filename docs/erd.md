@@ -11,13 +11,16 @@ erDiagram
         timestamp deleted_at "削除日時"
     }
 
-    treasures {
-        bigint id PK "運営が登録していく"
+    superpower {
+        bigint id PK "NFTのID"
         varchar name "名前"
         varchar rarity "レアリティ"
         varchar edition "エディションナンバー(1/100)"
         varchar image_url "画像URL"
-        varchar json_url "JSONのURL"
+        varchar description "説明"
+        int score "スコア"
+        bigint company_id FK "運営会社"
+        
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
@@ -42,8 +45,8 @@ erDiagram
         timestamp deleted_at "削除日時"
     }
     
-    companies ||--o{ treasures: "運営会社"
-    treasures ||--o{ treasure_categories: "カテゴリー"
+    companies ||--o{ superpower: "運営会社"
+    superpower ||--o{ treasure_categories: "カテゴリー"
     categories ||--o{ treasure_categories: "カテゴリー"
 
 
@@ -55,19 +58,6 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-
-    user_treasures {
-        bigint id PK "トレジャーがの権利が動いたタイミングで作成される"
-        bigint user_id FK "権利を持ったユーザーID"
-        bigint treasure_id FK "トレジャーID"
-        varchar reason "理由"
-        timestamp created_at "作成日時"
-        timestamp updated_at "更新日時"
-        timestamp deleted_at "削除日時"
-    }
-    users ||--o{ user_treasures: "保有情報"
-    treasures ||--o{ user_treasures: "保有者情報"
-
 
     market_items {
         bigint id PK "出品"
@@ -87,6 +77,7 @@ erDiagram
     
     competitions {
         bigint id PK "ID"
+        varchar address "コントラクトアドレス"
         varchar name "名前"
         varchar image_url "画像URL"
         varchar description "説明"
@@ -107,7 +98,7 @@ erDiagram
         timestamp updated_at "更新日時"
     }
     
-    competition_entry_treasures {
+    competition_entry_superpower {
         bigint id PK "ID"
         bigint competition_entry_id FK "エントリーID"
         bigint treasure_id FK "トレジャーID"
@@ -124,8 +115,36 @@ erDiagram
     }
 
     competitions ||--o{ competition_rewards: "報酬情報"
-    treasures ||--o{ competition_rewards: "報酬情報"
+    superpower ||--o{ competition_rewards: "報酬情報"
     competitions ||--o{ competition_entries: "エントリー情報"
-    competition_entries ||--o{ competition_entry_treasures: "エントリー情報"
+    competition_entries ||--o{ competition_entry_superpower: "エントリー情報"
     users ||--o{ competition_entries: "エントリー情報"
+    
+
 ```
+
+- Superpowerコントラクト
+  - ERC721Royaltyを継承
+    - ERC2981準拠
+  - receiverとして運営用アドレスを設定
+- デポジット用コントラクト
+  - ユーザーごとにウォレットを作成
+  - マネーロンダリング対策
+    - 出金時にマルチシグ承認を挟む
+- マーケットプレイスコントラクト
+  - 購入者と出品者のマッピングはオフチェーン
+  - 所有権の移転はオンチェーン(transferHoge)
+    - 手数料を運営用コントラクトに送る
+    - バックエンドからのみ呼び出し可能
+- 操作用アドレス
+    - バックエンドのサービスが使うアドレス
+- 運営用アドレス
+  - 手数料を受け取る
+  - Superpowerの発行/譲渡
+
+- 気になること
+- 
+
+- メタマスク認証の仕組み
+- 法人(事業者)で管理するアドレス
+- 
