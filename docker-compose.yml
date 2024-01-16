@@ -3,7 +3,7 @@ version: '3'
 services:
   backend:
     build:
-      context: ./backend
+      context: contract
       dockerfile: Dockerfile
     volumes:
       - ./backend:/app
@@ -12,7 +12,7 @@ services:
 
   ethereum:
     build:
-      context: ./backend
+      context: contract
       dockerfile: Dockerfile
     command: 'npm run hardhat-node'
     ports:
