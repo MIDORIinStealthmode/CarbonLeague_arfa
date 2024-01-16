@@ -1,9 +1,59 @@
-# ER図
+# 全体
+
+```mermaid
+
+flowchart LR
+    運営用アドレス
+
+    subgraph Aster
+        ThirdwebWallet
+        SuperpowerContract
+        MarketplaceContract -- transfer --> Superpower
+        Superpower
+        ThirdwebWallet -- approve --> 操作用アドレス
+        ThirdwebWallet -- has --> Superpower
+        Superpower -- receive --> 運営用アドレス
+    end
+
+    subgraph Backend
+        Nextjs -- use --> 操作用アドレス 
+        Postgres
+    end
+    
+    subgraph Client
+        React
+        Thirdweb -- create --> ThirdwebWallet
+    end
+    Postgres <-- query --> Nextjs 
+    操作用アドレス -- Call Mint --> SuperpowerContract
+    操作用アドレス -- NFTを動かす --> MarketplaceContract
+    SuperpowerContract -- Mint --> Superpower
+    Nextjs <-- call/render --> React
+    React -- use --> Thirdweb
+```
+
+- マーケットプレイス
+  - 買い手と売り手と金額の決定はWeb2で行いバックエンドの操作用アドレスでMarketplaceContractを操作する
+  - MarketplaceContractはThirdwebWallet間でのSuperpowerの所有権の移転とAsterの移動を行う
+- ThirdwebWallet
+  - Thirdwebの組み込みウォレット
+  - 操作用アドレスに対して所有するSuperpowerをApproveする
+- Superpower
+  - ERC721Royaltyを継承
+    - ERC2981準拠
+  - receiverとして運営用アドレスを設定
+- 運営用アドレス
+  - 人間が管理する
+- 操作用アドレス
+  - バックエンドが利用する
+  - 鍵はKMSで管理
+
+# Database
 
 ```mermaid
 erDiagram
     companies {
-        bigint id PK "Treasureの運営会社"
+        bigint id PK "運営会社ID"
         varchar name "名前"
         varchar image_url "画像URL"
         timestamp created_at "作成日時"
@@ -12,7 +62,7 @@ erDiagram
     }
 
     superpower {
-        bigint id PK "NFTのID"
+        bigint id PK "NFTID"
         varchar name "名前"
         varchar rarity "レアリティ"
         varchar edition "エディションナンバー(1/100)"
@@ -20,14 +70,14 @@ erDiagram
         varchar description "説明"
         int score "スコア"
         bigint company_id FK "運営会社"
-        
+
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    
+
     categories {
-        bigint id PK "カテゴリー"
+        bigint id PK "カテゴリーID"
         varchar name "名前"
         varchar image_url "画像URL"
         bigint parent_id FK "親カテゴリー"
@@ -35,7 +85,7 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    
+
     treasure_categories {
         bigint id PK "ID"
         bigint treasure_id FK "トレジャーID"
@@ -44,16 +94,15 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    
+
     companies ||--o{ superpower: "運営会社"
     superpower ||--o{ treasure_categories: "カテゴリー"
     categories ||--o{ treasure_categories: "カテゴリー"
 
-
     users {
         bigint id PK "Metamask登録時に作成する"
         varchar ethereum_key UK "Metamaskのアドレス"
-        varchar nonce "ワンタイムトークン"
+        varchar nonce "認証トークン"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
@@ -71,10 +120,9 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    
+
     users ||--o{ market_items: "出品情報"
-    
-    
+
     competitions {
         bigint id PK "ID"
         varchar address "コントラクトアドレス"
@@ -97,7 +145,7 @@ erDiagram
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
-    
+
     competition_entry_superpower {
         bigint id PK "ID"
         bigint competition_entry_id FK "エントリーID"
@@ -106,7 +154,7 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    
+
     competition_rewards {
         bigint id PK "ID"
         bigint competition_id FK "コンペティションID"
@@ -119,32 +167,4 @@ erDiagram
     competitions ||--o{ competition_entries: "エントリー情報"
     competition_entries ||--o{ competition_entry_superpower: "エントリー情報"
     users ||--o{ competition_entries: "エントリー情報"
-    
-
 ```
-
-- Superpowerコントラクト
-  - ERC721Royaltyを継承
-    - ERC2981準拠
-  - receiverとして運営用アドレスを設定
-- デポジット用コントラクト
-  - ユーザーごとにウォレットを作成
-  - マネーロンダリング対策
-    - 出金時にマルチシグ承認を挟む
-- マーケットプレイスコントラクト
-  - 購入者と出品者のマッピングはオフチェーン
-  - 所有権の移転はオンチェーン(transferHoge)
-    - 手数料を運営用コントラクトに送る
-    - バックエンドからのみ呼び出し可能
-- 操作用アドレス
-    - バックエンドのサービスが使うアドレス
-- 運営用アドレス
-  - 手数料を受け取る
-  - Superpowerの発行/譲渡
-
-- 気になること
-- 
-
-- メタマスク認証の仕組み
-- 法人(事業者)で管理するアドレス
-- 
