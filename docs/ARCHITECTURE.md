@@ -142,6 +142,7 @@ erDiagram
         bigint competition_id FK "コンペティションID"
         bigint user_id FK "ユーザーID"
         int rank "順位"
+        int score "スコア"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
