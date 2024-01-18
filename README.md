@@ -1,5 +1,6 @@
 # Install
 
+## Ethereumのセットアップ
 1. 環境変数の設定
 
 ```zsh
@@ -28,3 +29,6 @@ https://docs.metamask.io/wallet/how-to/get-started-building/run-devnet/
 ```zsh
 docker compose run backend npm test
 ```
+
+## webのセットアップ
+

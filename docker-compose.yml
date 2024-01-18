@@ -6,7 +6,7 @@ services:
       context: contract
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
+      - ./contract:/app
     depends_on:
       - ethereum
 
@@ -17,3 +17,18 @@ services:
     command: 'npm run hardhat-node'
     ports:
       - "8545:8545"
+    volumes:
+      - ./backend:/app
+
+  web:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    volumes:
+      - ./web:/app
+    ports:
+      - "3000:3000"
+    command: 'npm run dev'
+
+volumes:
+  chaindata:
