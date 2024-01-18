@@ -6,6 +6,7 @@ services:
       context: contract
       dockerfile: Dockerfile
     volumes:
+      - /app/node_modules
       - ./contract:/app
     depends_on:
       - ethereum
@@ -25,6 +26,7 @@ services:
       context: web
       dockerfile: Dockerfile
     volumes:
+      - /app/node_modules
       - ./web:/app
     ports:
       - "3000:3000"
