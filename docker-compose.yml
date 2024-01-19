@@ -1,36 +1,54 @@
 version: '3'
 
 services:
-  backend:
+  hardhat:
     build:
-      context: contract
+      context: hardhat
       dockerfile: Dockerfile
     volumes:
-      - /app/node_modules
-      - ./contract:/app
-    depends_on:
-      - ethereum
-
-  ethereum:
-    build:
-      context: contract
-      dockerfile: Dockerfile
-    command: 'npm run hardhat-node'
+      - ./hardhat:/app
+      - hardhat_node_modules:/app/node_modules
+    tty: true
     ports:
       - "8545:8545"
-    volumes:
-      - ./backend:/app
+    command: |
+      sh -c "npm run dev"
 
   web:
     build:
       context: web
       dockerfile: Dockerfile
     volumes:
-      - /app/node_modules
       - ./web:/app
+      - web_node_modules:/app/node_modules
     ports:
       - "3000:3000"
-    command: 'npm run dev'
+    command: |
+      sh -c "npm run dev"
+    restart: always
+    tty: true
+    stdin_open: true
+
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
 
 volumes:
-  chaindata:
+  chain-data:
+  db-data:
+  hardhat_node_modules:
+    driver_opts:
+        type: none
+        device: $PWD/hardhat/node_modules
+        o: bind
+  web_node_modules:
+    driver_opts:
+        type: none
+        device: $PWD/web/node_modules
+        o: bind
