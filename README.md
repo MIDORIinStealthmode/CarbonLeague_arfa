@@ -1,6 +1,8 @@
 # Install
 
-1. 環境変数の設定
+1. ThirdwebのAPIキーを取得
+
+2. 環境変数の設定
 
 ```zsh
 cp contract/.env.template contract/.env
@@ -10,15 +12,16 @@ cp web/.env.template web/.env.local
 vim web/.env.local # 環境変数を入れる
 ```
 
-2. Build&起動
+3. Build&起動
 
 ```zsh
 docker compose up -d
 ```
 
-3. 動作確認
+4. 動作確認
 
 - http://localhost:3000にアクセスしてみる
+　　- Metamask接続してみる
 - コントラクトのテストを実行してみる
     ```zsh
     docker compose run contract npm test
