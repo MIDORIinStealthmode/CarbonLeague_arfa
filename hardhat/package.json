@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "hardhat test",
-    "hardhat-node": "hardhat node"
+    "dev": "hardhat node",
+    "deploy:local": "hardhat run --network localhost scripts/deploy.ts"
   },
   "author": "",
   "license": "ISC",

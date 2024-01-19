@@ -4,8 +4,6 @@ RUN apt update && apt -y upgrade
 
 WORKDIR /app
 
-COPY package*.json /app
+COPY package*.json .
 
-RUN npm install
-
-COPY . /app
+RUN npm ci
