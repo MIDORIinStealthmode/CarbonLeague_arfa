@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./hardhat:/app
-      - hardhat_node_modules:/app/node_modules
     tty: true
     ports:
       - "8545:8545"
@@ -20,7 +19,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./web:/app
-      - web_node_modules:/app/node_modules
     ports:
       - "3000:3000"
     command: |
@@ -42,13 +40,3 @@ services:
 volumes:
   chain-data:
   db-data:
-  hardhat_node_modules:
-    driver_opts:
-        type: none
-        device: $PWD/hardhat/node_modules
-        o: bind
-  web_node_modules:
-    driver_opts:
-        type: none
-        device: $PWD/web/node_modules
-        o: bind
