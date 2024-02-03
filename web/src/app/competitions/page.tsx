@@ -40,7 +40,7 @@ export default function CompetitionsPage() {
         </TableHeader>
         <TableBody>
           {demoCompetitions.map((competition) => (
-            <TableRow>
+            <TableRow key={competition.id}>
               <TableCell className="font-medium">{competition.id}</TableCell>
               <TableCell>
                 <Link href={`/competitions/${competition.id}`}>
