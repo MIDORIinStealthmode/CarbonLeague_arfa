@@ -1,1 +1,16 @@
 .idea
+
+node_modules
+.env
+
+# Hardhat files
+backend/cache
+backend/artifacts
+
+# TypeChain files
+backend/typechain
+backend/typechain-types
+
+# solidity-coverage files
+backend/coverage
+backend/coverage.json

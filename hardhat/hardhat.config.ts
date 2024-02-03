@@ -10,6 +10,7 @@ const config: HardhatUserConfig = {
         mnemonic: process.env.MNEMONIC,
       },
       chainId: 1337,
+      gasPrice: 50000000000,
     }
   }
 };
