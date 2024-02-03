@@ -11,9 +11,5 @@
     {
         "title": "My Portfolio",
         "icon": "bi-person-fill"
-    },
-    {
-        "title": "Leaderboard",
-        "icon": "bi-trophy-fill"
     }
 ]
