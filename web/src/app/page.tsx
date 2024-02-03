@@ -2,7 +2,7 @@
 import React from 'react'
 import { ConnectWallet } from "@thirdweb-dev/react";
 import Navbar from "../components/ui/navbar";
-import Sidebar from "../components/ui/Sidebar";
+import Sidebar from "../components/ui/sidebar";
 import NFTMarketplace from '@/components/ui/nftmarketplace';
 
 export default function Home() {
