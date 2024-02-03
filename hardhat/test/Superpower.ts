@@ -3,7 +3,7 @@ import {
 } from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
 import { expect } from "chai";
 import hre from "hardhat";
-import { getAddress, parseGwei } from "viem";
+import { getAddress, isAddressEqual, parseEther } from "viem";
 
 describe("Superpower", function () {
   // We define a fixture to reuse the same setup in every test.
@@ -11,9 +11,9 @@ describe("Superpower", function () {
   // and reset Hardhat Network to that snapshot in every test.
   async function deploySuperpowerFixture() {
     // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await hre.viem.getWalletClients();
+    const [owner, otherAccount, otherAccountSub] = await hre.viem.getWalletClients();
 
-    const superpower = await hre.viem.deployContract("Superpower", ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"], {
+    const superpower = await hre.viem.deployContract("Superpower", [otherAccount.account.address], {
       gasPrice: 50000000000,
     });
 
@@ -23,6 +23,7 @@ describe("Superpower", function () {
       superpower,
       owner,
       otherAccount,
+      otherAccountSub,
       publicClient,
     };
   }
@@ -33,40 +34,80 @@ describe("Superpower", function () {
 
       expect(await superpower.read.owner()).to.equal(getAddress(owner.account.address));
     });
-  });
 
-  describe("Withdrawals", function () {
-    describe("Validations", function () {
-      it("Should revert with the right error if called too soon", async function () {
-        const { superpower, otherAccount } = await loadFixture(deploySuperpowerFixture);
+    it("should deploy with the correct name and symbol", async () => {
+      const { superpower } = await loadFixture(deploySuperpowerFixture);
+  
+      const name = await superpower.read.name();
+      const symbol = await superpower.read.symbol();
+  
+      expect(name).to.equal("SuperpowerNFT");
+      expect(symbol).to.equal("SPWNFT");
+    });
+  
+    });
 
-        // We retrieve the contract with a different account to send a transaction
-        const superpowerAsOtherAccount = await hre.viem.getContractAt(
-          "Superpower",
-          superpower.address,
-          { walletClient: otherAccount }
-        );
+    it("should support ERC2981 interface", async () => {
+      const { superpower } = await loadFixture(
+        deploySuperpowerFixture
+      );
+      const supports = await superpower.read.supportsInterface(
+        ["0x2a55205a"] // ERC2981 interface ID
+      );
 
-        const dummyAddress = '0xcd3B766CCDd6AE721141F452C550Ca635964ce71'
+      expect(supports).to.be.true;
+    });
 
-        await expect(superpowerAsOtherAccount.write.setAdmin([getAddress(dummyAddress)])).to.be.rejected;
-      });
+    it("should set token royalty correctly", async () => {
+      const { superpower, owner } = await loadFixture(
+        deploySuperpowerFixture
+      );
+      const receiver = owner.account.address;
+      const feeNumerator = BigInt(500); // 5% royalty
+      const divNum = BigInt(10000);
 
-      it("Should revert with the right error if called from another account", async function () {
-        const { superpower, otherAccount } = await loadFixture(
-          deploySuperpowerFixture
-        );
+      const tokenId = 1;
+      const salePrice = parseEther("1");
 
-        // We retrieve the contract with a different account to send a transaction
-        const superpowerAsOtherAccount = await hre.viem.getContractAt(
-          "Superpower",
-          superpower.address,
-          { walletClient: otherAccount }
-        );
-        await expect(superpowerAsOtherAccount.write.safeMint([otherAccount.account.address, 'https://dummy.com'])).to.be.rejectedWith(
-          "Only admin can call this function"
-        );
-      });
+      const [royaltyReceiver, royaltyAmount] = await superpower.read.royaltyInfo(
+        [tokenId,
+        salePrice]
+      );
+
+      expect(isAddressEqual(royaltyReceiver, receiver)).to.be.true;
+      expect(royaltyAmount).to.equal(salePrice * feeNumerator / divNum);
+    });
+
+  describe("Validations", function () {
+    it("Should revert with the right error if called too soon", async function () {
+      const { superpower, otherAccount } = await loadFixture(deploySuperpowerFixture);
+
+      // We retrieve the contract with a different account to send a transaction
+      const superpowerAsOtherAccount = await hre.viem.getContractAt(
+        "Superpower",
+        superpower.address,
+        { walletClient: otherAccount }
+      );
+
+      const dummyAddress = '0xcd3B766CCDd6AE721141F452C550Ca635964ce71'
+
+      await expect(superpowerAsOtherAccount.write.setAdmin([getAddress(dummyAddress)])).to.be.rejected;
+    });
+
+    it("Should revert with the right error if called from another account", async function () {
+      const { superpower, otherAccount, otherAccountSub } = await loadFixture(
+        deploySuperpowerFixture
+      );
+
+      // We retrieve the contract with a different account to send a transaction
+      const superpowerAsOtherAccount = await hre.viem.getContractAt(
+        "Superpower",
+        superpower.address,
+        { walletClient: otherAccountSub }
+      );
+      await expect(superpowerAsOtherAccount.write.safeMint([otherAccountSub.account.address, 'https://dummy.com'])).to.be.rejectedWith(
+        "Only admin can call this function"
+      );
     });
 
     // Event をテストしたい時に参考にするテスト
