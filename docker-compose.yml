@@ -24,7 +24,7 @@ services:
     ports:
       - "3000:3000"
     command: |
-      sh -c "npm run dev"
+      sh -c "npm ci && npm run dev"
     restart: always
     tty: true
     stdin_open: true
