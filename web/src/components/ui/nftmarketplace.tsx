@@ -4,9 +4,9 @@ import './NFTMarketplace.css'; // Make sure to create a corresponding CSS file t
 
 // Mock data for NFT items
 const nfts = [
-  { id: 1, title: 'NIKE SuperGreen', price: '9.99', image: 'NIKE_sample.png', description: 'Made with super light fiber with less CO2 emissions. Only 250 available.', hashtag: ['Nike', '2022', 'Sports']},
-  { id: 2, title: 'A Wildlife Supersuits', price: '9.99', image: 'Patagonia_sample.png', description:'A warm jacket that can sustain at top of Mount Everest', hashtag: ['Patagonia', '2022', 'Camp']},
-  { id: 3, title: 'Kiss the Sky', price: '9.99', image: 'ANA_sample.webp', description : 'A ticket to the sky with ANA', hashtag: ['ANA', '2022', 'Travel']},
+  { id: 1, title: 'NIKE SuperGreen', price: '21.99', image: 'NIKE_sample.png', description: 'Made with super light fiber with less CO2 emissions. Only 250 available.', hashtag: ['Nike', '2022', 'Sports']},
+  { id: 2, title: 'A Wildlife Supersuits', price: '40.99', image: 'Patagonia_sample.png', description:'A warm jacket that can sustain at top of Mount Everest', hashtag: ['Patagonia', '2022', 'Camp']},
+  { id: 3, title: 'Kiss the Sky', price: '30.99', image: 'ANA_sample.webp', description : 'A ticket to the sky with ANA', hashtag: ['ANA', '2022', 'Travel']},
   // Add more NFT items here
 ];
 
