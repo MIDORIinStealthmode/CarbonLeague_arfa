@@ -1,7 +1,8 @@
 'use client'
 
 import {PropsWithChildren} from "react";
-import {ThirdwebProvider} from "@thirdweb-dev/react";
+import {ThirdwebProvider, embeddedWallet, metamaskWallet} from "@thirdweb-dev/react";
+import { metadata } from "./layout";
 
 const activeChain = 'ethereum'
 
@@ -10,6 +11,9 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
     <ThirdwebProvider
       activeChain={activeChain}
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+      supportedWallets={[
+        embeddedWallet(),
+        metamaskWallet()]}
     >
       {children}
     </ThirdwebProvider>
