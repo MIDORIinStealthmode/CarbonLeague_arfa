@@ -1,0 +1,15 @@
+[
+    {
+        "title": "Marketplace",
+        "icon": "bi-gear-fill"
+        
+    },
+    {
+        "title": "Competetion",
+        "icon": "bi-info-circle-fill"
+    },
+    {
+        "title": "My Portfolio",
+        "icon": "bi-person-fill"
+    }
+]

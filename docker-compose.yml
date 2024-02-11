@@ -14,21 +14,6 @@ services:
     command: |
       sh -c "npm run dev"
 
-  web:
-    build:
-      context: web
-      dockerfile: Dockerfile
-    volumes:
-      - ./web:/app
-      - web-node-modules:/app/node_modules
-    ports:
-      - "3000:3000"
-    command: |
-      sh -c "npm ci && npm run dev"
-    restart: always
-    tty: true
-    stdin_open: true
-
   db:
     image: postgres
     volumes:
