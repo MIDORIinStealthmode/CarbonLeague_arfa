@@ -2,6 +2,7 @@ import React from 'react';
 import './NFTMarketplace.css'; // Make sure to create a corresponding CSS file to style your components
 
 
+
 // Mock data for NFT items
 const nfts = [
   { id: 1, title: 'NIKE SuperGreen', price: '21.99', image: 'NIKE_sample.png', description: 'Made with super light fiber with less CO2 emissions. Only 250 available.', hashtag: ['Nike', '2022', 'Sports']},
