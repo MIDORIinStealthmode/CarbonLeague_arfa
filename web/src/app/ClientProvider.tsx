@@ -4,7 +4,7 @@ import {PropsWithChildren} from "react";
 import {ThirdwebProvider, embeddedWallet, metamaskWallet} from "@thirdweb-dev/react";
 import { metadata } from "./layout";
 
-const activeChain = 'ethereum'
+const activeChain = 'goerli'
 
 export const ClientProvider = ({ children }: PropsWithChildren) => {
   return (
@@ -13,7 +13,8 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
       supportedWallets={[
         embeddedWallet(),
-        metamaskWallet()]}
+
+      ]}
     >
       {children}
     </ThirdwebProvider>
