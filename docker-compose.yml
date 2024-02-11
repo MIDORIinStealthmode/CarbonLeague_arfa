@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./hardhat:/app
-      - hardhat-node_modules:/app/node_modules
+      - hardhat-node-modules:/app/node_modules
     tty: true
     ports:
       - "8545:8545"
@@ -20,11 +20,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./web:/app
-      - web-node_modules:/app/node_modules
+      - web-node-modules:/app/node_modules
     ports:
       - "3000:3000"
     command: |
-      sh -c "npm run dev"
+      sh -c "npm ci && npm run dev"
     restart: always
     tty: true
     stdin_open: true
@@ -42,5 +42,13 @@ services:
 volumes:
   chain-data:
   db-data:
-  hardhat-node_modules:
-  web-node_modules:
+  hardhat-node-modules:
+    driver_opts:
+      type: none
+      device: $PWD/hardhat/node_modules
+      o: bind
+  web-node-modules:
+    driver_opts:
+      type: none
+      device: $PWD/web/node_modules
+      o: bind
