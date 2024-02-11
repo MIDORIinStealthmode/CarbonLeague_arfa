@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@thirdweb-dev/wallets": "^2.4.10"
+  }
+}
