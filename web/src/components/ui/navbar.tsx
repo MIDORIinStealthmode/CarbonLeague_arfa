@@ -1,6 +1,8 @@
 import React from 'react';
 import './navbar.css';
 import { ConnectWallet } from "@thirdweb-dev/react";
+import LoginUI from './loginUI';
+
 
 const Navbar = () => {
     return (
@@ -9,6 +11,9 @@ const Navbar = () => {
             <div className="navbar-logo">Logo Here</div>
             
             {/* Navigation Links */}
+            <div>
+                <LoginUI />
+            </div>
             <ul className="navbar-links">
                     <ConnectWallet
                 dropdownPosition={{

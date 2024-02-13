@@ -6,6 +6,10 @@
   color: lightblue;
 }
 
+.loginInput input {
+    color: black; /* Sets the font color to black */
+}
+
 .gradientText0 {
   background: -webkit-linear-gradient(#bfa3da, #84309c, #c735b0);
   -webkit-background-clip: text;

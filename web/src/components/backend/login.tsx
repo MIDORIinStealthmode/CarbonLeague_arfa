@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Home.module.css";
 import { connectToSmartWallet } from "./wallet";
+import { Button } from "../ui/button";
 
 
 type LoginProps = {
@@ -71,11 +72,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                 <div
                     className={`${styles.loginCard} ${isOpen ? styles.open : ''}`}
                 >
-                    <button
-                    onClick={onClose}
-                    className={styles.closeButton}
-                    >x</button>
-                    <h1>Unilogin</h1>
+                    <h1>Login with Username & Password</h1>
                     <div className={styles.loginInput}>
                         <input
                             type="text"
@@ -89,12 +86,16 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button
+                        <Button
                             onClick={() => connectWallet()}
                             >
                                 Login
-                            </button>
+                            </Button>
                     </div>
+                    <button
+                    onClick={onClose}
+                    className={styles.closeButton}
+                    >close</button>
                 </div>
         </div>
     );

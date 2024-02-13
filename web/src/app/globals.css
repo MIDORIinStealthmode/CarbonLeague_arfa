@@ -80,3 +80,7 @@ main {
   display: flex;
   height: 100vh;
 }
+
+.MainComponent {
+  width: 100%;
+}
