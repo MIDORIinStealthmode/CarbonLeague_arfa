@@ -11,10 +11,10 @@ const Navbar = () => {
             <div className="navbar-logo">Logo Here</div>
             
             {/* Navigation Links */}
-            <div>
-                <LoginUI />
-            </div>
             <ul className="navbar-links">
+                <div>
+                <LoginUI />
+                </div>
                     <ConnectWallet
                 dropdownPosition={{
                 side: "bottom",

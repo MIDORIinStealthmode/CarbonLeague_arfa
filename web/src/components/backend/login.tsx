@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Home.module.css";
 import { connectToSmartWallet } from "./wallet";
 import { Button } from "../ui/button";
+import { Textarea } from "@/components/ui/textarea"
 
 
 type LoginProps = {
