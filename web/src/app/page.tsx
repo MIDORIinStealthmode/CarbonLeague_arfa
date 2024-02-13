@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { useState } from 'react';
-import styles from './Home.module.css';
+import  './Home.module.css';
 import { NextPage } from 'next';
 import { Login } from "../components/backend/login";
 import Sidebar from "@/components/ui/Sidebar";
@@ -17,7 +17,7 @@ export default function Home() {
       <Navbar />
     <main className="">
       <Sidebar />
-      <div>
+      <div className="MainComponent">
         <h1 className="font-bold text-xl mb-2">Carbon League</h1>
         <p>Carbon League is a game that rewards you for supporting real-world heros reducing carbon emmisions.</p>
         <NFTMarketplace />
