@@ -28,7 +28,7 @@ export const GET = async (request: Request, {params}: Params) => {
 
   const metadata = {
     "image": superpower.imageUrl,
-    "external_url": `${process.env.HOST}/superpowers/${superpower.nftId}`,
+    "external_url": `${process.env.NEXT_PUBLIC_VERCEL_URL}/superpowers/${superpower.nftId}`,
     "description": superpower.description,
     "name": superpower.name,
     "attributes": [
