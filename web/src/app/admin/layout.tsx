@@ -9,7 +9,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
       </header>
       <div className="flex">
         <AdminNav />
-        <main>{children}</main>
+        <main className="flex-1 w-full h-full">{children}</main>
       </div>
     </div>
   )

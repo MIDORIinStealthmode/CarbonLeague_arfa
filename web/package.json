@@ -10,10 +10,13 @@
     "db:generate:schema": "prisma generate",
     "db:migrate:local": "dotenv -e .env.local -- prisma migrate dev",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
-    "db:studio": "prisma studio"
+    "db:studio": "dotenv -e .env.local -- prisma studio"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.9.1",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-table": "^8.12.0",
     "@thirdweb-dev/react": "^4.3.2",
@@ -25,6 +28,7 @@
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4",
