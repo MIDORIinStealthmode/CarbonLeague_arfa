@@ -40,5 +40,8 @@ export const GET = async (request: Request, {params}: Params) => {
     ],
   }
 
-  return NextResponse.json(metadata);
+  const response = NextResponse.json(metadata)
+  response.headers.set('Access-Control-Allow-Origin', '*')
+
+  return response;
 }
