@@ -5,6 +5,7 @@ export default function ProfilePage() {
     <div>
       Profile
       <MyNFTs />
+      
     </div>
   )
 }
