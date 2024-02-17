@@ -10,10 +10,9 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
   return (
     <ThirdwebProvider
       activeChain={activeChain}
-      clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
       supportedWallets={[
         embeddedWallet(),
-
       ]}
     >
       {children}
