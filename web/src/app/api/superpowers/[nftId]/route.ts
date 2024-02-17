@@ -40,5 +40,5 @@ export const GET = async (request: Request, {params}: Params) => {
     ],
   }
 
-  return NextResponse.json(metadata);
+  return NextResponse.json(metadata)
 }
