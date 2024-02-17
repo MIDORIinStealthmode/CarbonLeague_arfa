@@ -8,6 +8,7 @@ services:
     volumes:
       - ./hardhat:/app
       - hardhat-node-modules:/app/node_modules
+      - ./web:/app/web
     tty: true
     ports:
       - "8545:8545"
