@@ -15,7 +15,7 @@ type AttributeTagProps = {
 const AttributeTag = ({ nft, type }: AttributeTagProps) => {
   return (
     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-      {nft.metadata.attributes?.find((attr) => attr.trait_type === type).value}
+      {(nft.metadata.attributes as any).find((attr: any) => attr.trait_type === type).value}
     </span>
   )
 }

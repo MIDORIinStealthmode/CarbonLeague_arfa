@@ -40,7 +40,7 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
     const result = await createDirectListing({
       tokenId: nft.metadata!.id,
       pricePerToken: "0.001",
-      assetContractAddress: process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS,
+      assetContractAddress: process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS!,
     })
   }
 

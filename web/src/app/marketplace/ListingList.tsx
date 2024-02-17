@@ -15,7 +15,6 @@ export const ListingList = () => {
   return (
     <div className="flex gap-4 flex-wrap">
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
       {directListings && directListings.map((listing, i) => (
         <BuyListingDialog key={i} listing={listing}>
           <ListingCard listing={listing}/>
