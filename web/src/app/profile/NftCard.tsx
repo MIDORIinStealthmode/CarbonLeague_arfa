@@ -29,7 +29,6 @@ export const NftCard = ({ nft }: Props) => {
         <p className="text-gray-700 text-base">
           {nft.metadata.description}
         </p>
-        <p>${100}$</p>
       </div>
       <div className="px-6 pt-4 pb-2">
         <AttributeTag nft={nft} type={"company"}/>

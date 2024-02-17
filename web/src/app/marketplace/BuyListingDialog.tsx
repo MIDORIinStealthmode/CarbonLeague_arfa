@@ -10,38 +10,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {NFT} from "@thirdweb-dev/sdk";
+import {DirectListingV3, NFT} from "@thirdweb-dev/sdk";
 import {PropsWithChildren} from "react";
 import {NftCard} from "@/app/profile/NftCard";
-import {useContract, useCreateDirectListing, useDirectListings} from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useBuyDirectListing,
+  useContract,
+  useCreateDirectListing,
+  useDirectListings
+} from "@thirdweb-dev/react";
+import {ListingCard} from "@/app/marketplace/ListingCard";
 
 type Props = {
-  nft: NFT
+  listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
 }
 
-export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>) => {
+export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
+  const address = useAddress();
   const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
   const {
-    data: listings,
-    isLoading: listLoading,
-    error: listError
-  } = useDirectListings(contract, { tokenId: nft.metadata.id });
-  const listing = listings?.[0];
-  const {
-    mutateAsync: createDirectListing,
-    isLoading: createLoading,
-    error: createError,
-  } = useCreateDirectListing(contract);
-
-  const isLoading = listLoading || createLoading;
-  const error = listError || createError;
+    mutateAsync: buyListing,
+    isLoading,
+    error
+  } = useBuyDirectListing(contract);
 
   const handleSubmit = async () => {
-    const result = await createDirectListing({
-      tokenId: nft.metadata!.id,
-      pricePerToken: "0.001",
-      assetContractAddress: process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS,
+    const result = await buyListing({
+      listingId: listing.id,
+      quantity: "1",
+      buyer: address!,
     })
+    console.log(result)
   }
 
   return (
@@ -55,17 +55,16 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
         <DialogHeader>
           <DialogTitle>Create Listing</DialogTitle>
           <DialogDescription>
-            このNFTを出品しますか
+            このNFTを購入しますか
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <NftCard nft={nft}/>
+          <ListingCard listing={listing}/>
         </div>
         <DialogFooter>
           <Button
             onClick={handleSubmit}
-            disabled={!!listing}
-          >出品</Button>
+          >購入</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
