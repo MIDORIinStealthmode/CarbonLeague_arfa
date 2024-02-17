@@ -1,32 +1,34 @@
 'use client'
 
-import { useNFTs, useContract, useAddress } from "@thirdweb-dev/react";
+import {useNFTs, useContract, useAddress, useOwnedNFTs} from "@thirdweb-dev/react";
 import Image from "next/image";
 import { Home } from "./myNFTMedia";
+import {NftCard} from "@/app/profile/NftCard";
+import {useState} from "react";
+import {CreateListingDialog} from "@/app/profile/CreateListingDialog";
 
-const contractAddress = "0x1b752d3851c1255A4900F8ed34727Cf2cc8185c2"
+const contractAddress = process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS
 
 export const MyNFTs = () => {
+  const address = useAddress();
   const { contract } = useContract(contractAddress);
-  const { data, isLoading, error } = useNFTs(contract);
-  console.log(data, error);
+  const { data, isLoading, error } = useOwnedNFTs(contract, address);
+
+  // console.log(address, error)
+
   return (
     <div>
-        <h1>My NFTs</h1>
-        {isLoading && <p>Loading...</p>}
-        {data && (
-            <ul>
-                {data.map((nft, i) => (
-                    <li key={i}>
-                        {nft.owner}
-                        <Image src={nft.metadata.image!} alt={nft.metadata.image!} width={300} height={300}/>
-                        
-                
-                    </li>
-                ))}
-            </ul>
-        
-        )}
+      <h1>My NFTs</h1>
+      {isLoading && <p>Loading...</p>}
+      {data && (
+        <ul>
+          {data.map((nft, i) => (
+            <CreateListingDialog key={i} nft={nft}>
+              <NftCard nft={nft}/>
+            </CreateListingDialog>
+          ))}
+        </ul>
+      )}
     </div>
 )
 }
