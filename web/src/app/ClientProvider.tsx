@@ -15,7 +15,7 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
         smartWallet(
           embeddedWallet(),
           {
-            factoryAddress: process.env.NEXT_PUBLIC_SMARTWALETT_ADDRESS,
+            factoryAddress: process.env.NEXT_PUBLIC_SMARTWALETT_ADDRESS!,
             gasless: true,
           }
         ),
