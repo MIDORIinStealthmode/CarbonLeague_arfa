@@ -2,10 +2,10 @@ import prisma from "@/lib/prisma";
 import {CompanyTable} from "@/app/admin/companies/CompanyTable";
 import {Button} from "@/components/ui/button";
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminCompaniesPage() {
   const companies = await prisma.company.findMany();
-
-
 
   return (
     <div className="p-4 flex flex-col gap-4">
