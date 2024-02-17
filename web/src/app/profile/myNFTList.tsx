@@ -4,7 +4,7 @@ import { useNFTs, useContract, useAddress } from "@thirdweb-dev/react";
 import Image from "next/image";
 import { Home } from "./myNFTMedia";
 
-const contractAddress = "0xe3b15B016864120481DbD19c35797dc5C992bAd5"
+const contractAddress = "0x1b752d3851c1255A4900F8ed34727Cf2cc8185c2"
 
 export const MyNFTs = () => {
   const { contract } = useContract(contractAddress);
@@ -19,7 +19,7 @@ export const MyNFTs = () => {
                 {data.map((nft, i) => (
                     <li key={i}>
                         {nft.owner}
-                        <Image src={nft.metadata.image!} alt={nft.metadata.image!}/>
+                        <Image src={nft.metadata.image!} alt={nft.metadata.image!} width={300} height={300}/>
                         
                 
                     </li>
