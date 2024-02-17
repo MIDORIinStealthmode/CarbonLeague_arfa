@@ -1,7 +1,11 @@
+import { MyNFTs } from './myNFTList'
+
 export default function ProfilePage() {
   return (
     <div>
-      ProfilePage
+      Profile
+      <MyNFTs />
+      
     </div>
   )
 }

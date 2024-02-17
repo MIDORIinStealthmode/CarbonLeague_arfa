@@ -24,7 +24,7 @@ docker compose up -d
 　　- Metamask接続してみる
 - コントラクトのテストを実行してみる
     ```zsh
-    docker compose run contract npm test
+    docker compose run hardhat npm test
     ```
 - コントラクトをデプロイしてみる
     ```
