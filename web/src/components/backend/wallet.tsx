@@ -104,10 +104,7 @@ export async function connectToSmartWallet(
       encryptedWallet,
     });
 
-    await contract.call(
-      "register",
-      [username, encryptedWalletUri]
-      )
+
       return smartWallet;
   }
 
