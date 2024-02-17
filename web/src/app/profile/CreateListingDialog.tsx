@@ -13,7 +13,7 @@ import {
 import {NFT} from "@thirdweb-dev/sdk";
 import {PropsWithChildren} from "react";
 import {NftCard} from "@/app/profile/NftCard";
-import {useContract, useCreateDirectListing} from "@thirdweb-dev/react";
+import {useContract, useCreateDirectListing, useDirectListings} from "@thirdweb-dev/react";
 
 type Props = {
   nft: NFT
@@ -22,12 +22,19 @@ type Props = {
 export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>) => {
   const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
   const {
+    data: listings,
+    isLoading: listLoading,
+    error: listError
+  } = useDirectListings(contract, { tokenId: nft.metadata.id });
+  const listing = listings?.[0];
+  const {
     mutateAsync: createDirectListing,
-    isLoading,
-    error,
+    isLoading: createLoading,
+    error: createError,
   } = useCreateDirectListing(contract);
 
-  console.log(isLoading, error)
+  const isLoading = listLoading || createLoading;
+  const error = listError || createError;
 
   const handleSubmit = async () => {
     const result = await createDirectListing({
@@ -35,7 +42,6 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
       pricePerToken: "0.01",
       assetContractAddress: process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS,
     })
-    console.log(result)
   }
 
   return (
@@ -56,7 +62,10 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
           <NftCard nft={nft}/>
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit}>出品</Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={!!listing}
+          >出品</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
