@@ -1,14 +1,16 @@
-import SidebarItem from "./SidebarItem"
-import items from "./sidebar.json"
 import "./Sidebar.css"
 import Link from "next/link"
+
 
 
 export default function Sidebar(){
     return (
         <div className="sidebar">
-          { items.map((item, index) => <SidebarItem key={index} item={item} />) }
-          <Link href="/profile">Go to My Profile</Link>
+          <button>Marketplace</button>
+          <button>Competetion</button>
+          <Link href="/profile">
+            <button>My Profile</button>
+          </Link>
         </div>
     )
 }
