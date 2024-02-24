@@ -6,8 +6,12 @@ import Link from "next/link"
 export default function Sidebar(){
     return (
         <div className="sidebar">
-          <button>Marketplace</button>
-          <button>Competetion</button>
+          <Link href="/marketplace">
+            <button>Marketplace</button>
+          </Link>
+          <Link href="/competitions">
+            <button>Competitions</button>
+          </Link>
           <Link href="/profile">
             <button>My Profile</button>
           </Link>
