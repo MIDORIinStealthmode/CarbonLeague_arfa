@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Table,
   TableBody,
@@ -8,6 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Link from "next/link";
+
+import {ListingList} from "@/app/marketplace/ListingList";
+import Sidebar from "@/components/ui/Sidebar";
+import Navbar from "@/components/ui/navbar";
+
 
 type CompetitionStatus = 'upcoming' | '開催中' | 'finished'
 
@@ -28,6 +35,10 @@ const demoCompetitions: Competition[] = [
 export default function CompetitionsPage() {
   return (
     <div>
+      <Navbar/>
+      <main className="">
+        <Sidebar/>
+
       <h1>コンペ一覧</h1>
       <Table>
         <TableHeader>
@@ -54,6 +65,7 @@ export default function CompetitionsPage() {
           ))}
         </TableBody>
       </Table>
+      </main>
     </div>
   )
 }
