@@ -1,8 +1,8 @@
 'use client'
 
 import {PropsWithChildren} from "react";
-import {ThirdwebProvider, embeddedWallet, metamaskWallet, smartWallet} from "@thirdweb-dev/react";
-import { metadata } from "./layout";
+import {ThirdwebProvider, embeddedWallet, smartWallet} from "@thirdweb-dev/react";
+import {QueryProvider} from "@/app/QueryProvider";
 
 const activeChain = 'goerli'
 
@@ -21,7 +21,9 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
         ),
       ]}
     >
-      {children}
+      <QueryProvider>
+        {children}
+      </QueryProvider>
     </ThirdwebProvider>
   )
 }
