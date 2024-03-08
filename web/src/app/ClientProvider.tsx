@@ -7,9 +7,10 @@ import {Sepolia} from "@thirdweb-dev/chains";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const activeChain = process.env.NEXT_PUBLIC_CHAIN_ID === '11155111' ? Sepolia : process.env.NEXT_PUBLIC_CHAIN_ID!
-const queryProvider = new QueryClient()
 
 export const ClientProvider = ({ children }: PropsWithChildren) => {
+  const queryProvider = new QueryClient()
+
   return (
     <QueryClientProvider client={queryProvider}>
       <ThirdwebProvider

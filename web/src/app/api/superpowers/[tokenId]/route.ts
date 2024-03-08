@@ -3,14 +3,14 @@ import prisma from "@/lib/prisma";
 
 type Params = {
   params: {
-    nftId: string
+    tokenId: string
   }
 }
 
 export const GET = async (request: Request, {params}: Params) => {
   const superpower = await prisma.superpower.findFirstOrThrow({
     where: {
-      nftId: Number(params.nftId)
+      tokenId: Number(params.tokenId)
     },
     include: {
       company: {
@@ -28,7 +28,7 @@ export const GET = async (request: Request, {params}: Params) => {
 
   const metadata = {
     "image": superpower.imageUrl,
-    "external_url": `${process.env.HOST}/superpowers/${superpower.nftId}`,
+    "external_url": `${process.env.HOST}/superpowers/${superpower.tokenId}`,
     "description": superpower.description,
     "name": superpower.name,
     "attributes": [
