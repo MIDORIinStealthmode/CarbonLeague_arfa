@@ -18,7 +18,7 @@ export const CompanyScalarFieldEnumSchema = z.enum(['id','name']);
 
 export const CategoryScalarFieldEnumSchema = z.enum(['id','name']);
 
-export const SuperpowerScalarFieldEnumSchema = z.enum(['id','nftId','imageUrl','name','description','rank','score','year','categoryId','companyId']);
+export const SuperpowerScalarFieldEnumSchema = z.enum(['id','tokenId','imageUrl','name','description','rank','score','year','categoryId','companyId']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -69,7 +69,7 @@ export type Category = z.infer<typeof CategorySchema>
 
 export const SuperpowerSchema = z.object({
   id: z.string().uuid(),
-  nftId: z.number().int(),
+  tokenId: z.number().int().nullable(),
   imageUrl: z.string(),
   name: z.string(),
   description: z.string(),
