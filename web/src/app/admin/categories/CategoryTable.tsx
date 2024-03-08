@@ -3,7 +3,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {Category} from '@/lib/schema/zod'
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import {CategoryEditDialog} from "@/app/admin/categories/CategoryEditDialog";
 
 type Props = {
   categories: Category[]
@@ -70,7 +69,6 @@ export function CategoryTable({categories}: Props) {
           )}
         </TableBody>
       </Table>
-      <CategoryEditDialog  />
     </div>
   )
 }
