@@ -1,6 +1,7 @@
-import {sdk} from "@/lib/thirdweb";
 import {NextResponse} from "next/server";
 import {getSuperpowerContract} from "@/lib/contracts/superpowerContract";
+
+export const dynamic = 'force-dynamic'
 
 type Params = {
   params: {
