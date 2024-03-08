@@ -86,7 +86,7 @@ model ScoreReport {
   carbonEmissionId String         @unique
   carbonEmission   CarbonEmission @relation(fields: [carbonEmissionId], references: [id])
 
-  scoreCO2Reduction     Int
-  scoreCarbonEfficiency Int
-  totalScore            Int
+  scoreCO2Reduction     Float
+  scoreCarbonEfficiency Float
+  totalScore            Float
 }
