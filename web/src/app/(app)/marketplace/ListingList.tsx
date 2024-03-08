@@ -1,7 +1,7 @@
 'use client'
 
 import {useContract, useDirectListings} from "@thirdweb-dev/react";
-import {ListingCard} from "./ListingCard";
+import {ListingCard} from "../common/ListingCard";
 import {BuyListingDialog} from "./BuyListingDialog";
 
 export const ListingList = () => {

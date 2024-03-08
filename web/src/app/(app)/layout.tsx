@@ -7,9 +7,9 @@ export default function AppLayout({ children }: PropsWithChildren) {
   return (
     <ClientProvider>
       <Navbar />
-      <div className="flex">
+      <div className="flex flex-1">
         <Sidebar />
-        <main className="">
+        <main className="flex-1 overflow-x-hidden p-4">
           {children}
         </main>
       </div>
