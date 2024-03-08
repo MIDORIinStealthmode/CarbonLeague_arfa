@@ -53,7 +53,7 @@ export const Mint = ({ superpowerId, disabled }: Props) => {
                 }
               )
             }}
-            loading={status === 'pending'}
+            loading={status === 'loading'}
             disabled={disabled}
           >Mint</Button>
         </div>
