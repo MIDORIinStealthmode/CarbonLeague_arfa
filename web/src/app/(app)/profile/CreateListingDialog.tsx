@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import {NFT} from "@thirdweb-dev/sdk";
 import {PropsWithChildren} from "react";
-import {NftCard} from "./NftCard";
+import {NftCard} from "../common/NftCard";
 import {useContract, useCreateDirectListing, useDirectListings} from "@thirdweb-dev/react";
 
 type Props = {

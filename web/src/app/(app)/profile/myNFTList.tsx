@@ -1,7 +1,7 @@
 'use client'
 
 import {useContract, useAddress, useOwnedNFTs} from "@thirdweb-dev/react";
-import {NftCard} from "./NftCard";
+import {NftCard} from "../common/NftCard";
 import {CreateListingDialog} from "./CreateListingDialog";
 
 const contractAddress = process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS

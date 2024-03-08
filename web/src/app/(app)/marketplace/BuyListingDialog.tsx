@@ -19,7 +19,7 @@ import {
   useCreateDirectListing,
   useDirectListings
 } from "@thirdweb-dev/react";
-import {ListingCard} from "./ListingCard";
+import {ListingCard} from "../common/ListingCard";
 
 type Props = {
   listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
