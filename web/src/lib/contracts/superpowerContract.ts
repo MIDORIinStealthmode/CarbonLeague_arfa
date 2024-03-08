@@ -782,5 +782,5 @@ const abi = [
 ]
 
 export const getSuperpowerContract = () => {
-  return sdk.getContract(process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS, abi)
+  return sdk.getContract(process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS!, abi)
 }
