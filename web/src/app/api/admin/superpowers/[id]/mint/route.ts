@@ -1,8 +1,8 @@
 import {getSuperpowerContract} from "@/lib/contracts/superpowerContract";
 import {MintResponse} from "@/lib/contracts/types";
-import {hexToNumber} from "web3-utils";
 import prisma from "@/lib/prisma";
 import {NextResponse} from "next/server";
+import {hexToNumber} from "web3-utils";
 
 type Params = {
   params: {
