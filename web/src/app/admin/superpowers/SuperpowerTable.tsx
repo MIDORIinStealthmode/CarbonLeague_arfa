@@ -21,6 +21,7 @@ import {useMemo, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {SuperpowerEditDialog} from "@/app/admin/superpowers/SuperpowerEditDialog";
 import Image from "next/image";
+import {Mint} from "@/app/admin/superpowers/Mint";
 
 type Props = {
   superpowers: (Superpower & { company: Company, category: Category })[]
@@ -55,7 +56,10 @@ export function SuperpowerTable<TData, TValue>({superpowers}: Props) {
     {
       accessorKey: "action",
       cell: ({ row }) => (
-        <Button onClick={() => setEditId(row.getValue('id'))}>edit</Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setEditId(row.getValue('id'))}>edit</Button>
+          <Mint superpowerId={row.id} />
+        </div>
       )
     },
   ], [])

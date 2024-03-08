@@ -5,7 +5,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {SubmitHandler, useForm} from "react-hook-form";
 import {Superpower, SuperpowerSchema} from "@/lib/schema/zod";
 import { Input } from "@/components/ui/input";
-import { useCallback, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
   const form = useForm<Superpower>({
     resolver: zodResolver(SuperpowerSchema.extend({
       id: create ? z.string().optional() : z.string(),
-      nftId: z.preprocess(v => Number(v), z.number().int()),
+      nftId: z.string().optional(),
       rank: z.preprocess(v => Number(v), z.number().int()),
       score: z.preprocess(v => Number(v), z.number().int()),
       year: z.preprocess(v => Number(v), z.number().int())
@@ -107,20 +107,6 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
           </DialogHeader>
           <Form<Superpower> {...form}>
             <div className="grid grid-cols-3 gap-4">
-              <FormField<Superpower>
-                control={form.control}
-                name="nftId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>tokenId</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="tokenId" {...field} />
-                    </FormControl>
-                    <FormDescription>This is same as tokenId.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField<Superpower>
                 control={form.control}
                 name="companyId"
@@ -231,7 +217,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                               }
                             }}
                           />
-                          <Button asChild>
+                          <Button>
                             <label htmlFor="nft-image-upload">
                               Upload
                             </label>

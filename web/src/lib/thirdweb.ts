@@ -1,10 +1,12 @@
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import {ChainId, ThirdwebSDK} from "@thirdweb-dev/sdk";
+import {Goerli} from "@thirdweb-dev/chains";
 
-// export const sdk = ThirdwebSDK.fromPrivateKey(, 'goerli')
+globalThis.TW_SKIP_FETCH_SETUP = true;
+
 export const sdk = ThirdwebSDK.fromPrivateKey(
   process.env.ADMIN_SECRET_KEY!,
-  'goerli',
+  'sepolia',
   {
-    secretKey: "",
+    secretKey: process.env.THIRDWEB_SECRET_KEY!,
   }
 )

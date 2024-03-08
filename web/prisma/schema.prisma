@@ -48,7 +48,7 @@ model Category {
 
 model Superpower {
   id          String @id @default(uuid())
-  nftId       Int
+  tokenId     Int?
   imageUrl    String
   name        String
   description String
