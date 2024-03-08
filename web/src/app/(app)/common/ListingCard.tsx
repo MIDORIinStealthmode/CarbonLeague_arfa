@@ -31,7 +31,7 @@ export const ListingCard = ({ listing }: Props) => {
           <Skeleton className="w-full h-4 mb-1"/>
         )}
         {listing ? (
-          <p className="text-gray-700 text-base mb-1 leading-4	">{listing.pricePerToken}</p>
+          <p className="text-gray-700 text-base mb-1 leading-4	">{(listing.pricePerToken / 1000000000000000000).toFixed(3)} ETH</p>
         ) : (
           <Skeleton className="w-20 h-4 mb-1"/>
         )}

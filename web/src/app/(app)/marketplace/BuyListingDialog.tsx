@@ -12,34 +12,18 @@ import {
 } from "@/components/ui/dialog"
 import {DirectListingV3} from "@thirdweb-dev/sdk";
 import {PropsWithChildren} from "react";
-import {
-  useAddress,
-  useBuyDirectListing,
-  useContract,
-  useCreateDirectListing,
-  useDirectListings
-} from "@thirdweb-dev/react";
 import {ListingCard} from "../common/ListingCard";
+import {useBuyListing} from "@/hooks/useMarketplace";
 
 type Props = {
   listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
 }
 
 export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
-  const address = useAddress();
-  const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
-  const {
-    mutateAsync: buyListing,
-    isLoading,
-    error
-  } = useBuyDirectListing(contract);
+  const { buy, isLoading, error } = useBuyListing(listing.id)
 
   const handleSubmit = async () => {
-    const result = await buyListing({
-      listingId: listing.id,
-      quantity: "1",
-      buyer: address!,
-    })
+    const result = await buy()
     console.log(result)
   }
 
@@ -62,6 +46,8 @@ export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>
         </div>
         <DialogFooter>
           <Button
+            loading={isLoading}
+            disabled={isLoading}
             onClick={handleSubmit}
           >購入</Button>
         </DialogFooter>

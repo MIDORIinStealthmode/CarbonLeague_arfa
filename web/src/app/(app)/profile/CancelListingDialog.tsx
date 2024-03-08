@@ -10,30 +10,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {NFT} from "@thirdweb-dev/sdk";
+import {DirectListingV3, NFT} from "@thirdweb-dev/sdk";
 import {PropsWithChildren, useState} from "react";
 import {NftCard} from "../common/NftCard";
-import {useCreateListing} from "@/hooks/useMarketplace";
+import {useCancelListing, useCreateListing} from "@/hooks/useMarketplace";
 import {Input} from "@/components/ui/input";
+import {ListingCard} from "@/app/(app)/common/ListingCard";
 import {useRouter} from "next/navigation";
 
 type Props = {
-  nft: NFT
+  listing: DirectListingV3
 }
 
-export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>) => {
+export const CancelListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
   const [open, setOpen] = useState(false)
-  const [price, setPrice] = useState(0)
   const {
-    listing,
-    createListing,
+    cancel,
     isLoading,
     error
-  } = useCreateListing(nft)
+  } = useCancelListing(listing.id)
   const router = useRouter()
 
   const handleSubmit = async () => {
-    const result = await createListing(price)
+    const result = await cancel()
     console.log(result)
     setOpen(false)
     router.refresh()
@@ -50,31 +49,21 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
         <DialogHeader>
           <DialogTitle>Create Listing</DialogTitle>
           <DialogDescription>
-            このNFTを出品しますか
+            この出品を取り消しますか
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col justify-center items-center gap-4 w-full">
-          <NftCard nft={nft}/>
-          <div className="flex gap-1 items-center">
-            <Input
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}
-              label="Price"
-              type="number"
-              step="0.001"
-              data-format="$1 ETH"
-            />
-            <spna>ETH</spna>
-          </div>
+          <ListingCard listing={listing}/>
         </div>
         <DialogFooter>
           <Button
             onClick={handleSubmit}
-            disabled={!!listing}
             loading={isLoading}
-          >出品</Button>
+            disabled={isLoading}
+          >取り消す</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   )
 }
+
