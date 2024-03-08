@@ -1,25 +1,54 @@
 'use client'
 
-import {useContract, useDirectListings} from "@thirdweb-dev/react";
 import {ListingCard} from "../common/ListingCard";
 import {BuyListingDialog} from "./BuyListingDialog";
+import {useListings} from "@/hooks/useMarketplace";
+import {RefObject, useEffect, useRef, useState} from "react";
+import {useInView} from "react-intersection-observer";
 
 export const ListingList = () => {
-  const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const { ref: loader, inView } = useInView({
+    rootMargin: '-50px',
+  });
+
   const {
-    data: directListings,
+    data: listings,
     isLoading,
     error,
-  } = useDirectListings(contract);
+  } = useListings({
+    start: 0,
+    count: 10 * page,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setPage((prev) => prev + 1);
+    }
+  }, [inView])
+
+  useEffect(() => {
+    if (listings?.length < page * 10) {
+      setHasMore(false)
+    }
+  }, [listings]);
 
   return (
     <div className="flex gap-4 flex-wrap">
-      {isLoading && <p>Loading...</p>}
-      {directListings && directListings.map((listing, i) => (
+      {isLoading && !listings && (
+        <>
+          <ListingCard />
+          <ListingCard />
+          <ListingCard />
+        </>
+      )}
+      {listings && listings.map((listing, i) => (
         <BuyListingDialog key={i} listing={listing}>
           <ListingCard listing={listing}/>
         </BuyListingDialog>
       ))}
+      {hasMore && <div ref={loader as RefObject<HTMLDivElement>} />}
     </div>
   )
 }
