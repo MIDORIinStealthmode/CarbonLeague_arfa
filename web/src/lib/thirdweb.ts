@@ -6,7 +6,7 @@ globalThis.TW_SKIP_FETCH_SETUP = true;
 
 export const sdk = ThirdwebSDK.fromPrivateKey(
   process.env.ADMIN_SECRET_KEY!,
-  'sepolia',
+  process.env.NEXT_PUBLIC_CHAIN_ID!,
   {
     secretKey: process.env.THIRDWEB_SECRET_KEY!,
   }
