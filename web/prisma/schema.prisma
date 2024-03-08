@@ -32,6 +32,8 @@ model User {
   id    String  @id @default(uuid())
   email String  @unique
   name  String?
+
+  entries CompetitionEntry[]
 }
 
 model Company {
@@ -61,6 +63,8 @@ model Superpower {
   category   Category @relation(fields: [categoryId], references: [id])
   companyId  String
   company    Company  @relation(fields: [companyId], references: [id])
+
+  entries CompetitionEntry[]
 }
 
 model CarbonEmission {
@@ -89,4 +93,23 @@ model ScoreReport {
   scoreCO2Reduction     Float?
   scoreCarbonEfficiency Float
   totalScore            Float?
+}
+
+model Competition {
+  id        String   @id @default(uuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+
+  entries CompetitionEntry[]
+}
+
+model CompetitionEntry {
+  id            String      @id @default(uuid())
+  competitionId String
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  superpowerId  String
+  superpower    Superpower  @relation(fields: [superpowerId], references: [id])
 }

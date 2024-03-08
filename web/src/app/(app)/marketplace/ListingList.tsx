@@ -1,8 +1,8 @@
 'use client'
 
 import {useContract, useDirectListings} from "@thirdweb-dev/react";
-import {ListingCard} from "@/app/marketplace/ListingCard";
-import {BuyListingDialog} from "@/app/marketplace/BuyListingDialog";
+import {ListingCard} from "./ListingCard";
+import {BuyListingDialog} from "./BuyListingDialog";
 
 export const ListingList = () => {
   const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");

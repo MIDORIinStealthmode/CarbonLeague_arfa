@@ -1,5 +1,4 @@
 import {NFT} from "@thirdweb-dev/sdk";
-import {Card} from "@/components/ui/card";
 import Image from "next/image";
 import React from "react";
 

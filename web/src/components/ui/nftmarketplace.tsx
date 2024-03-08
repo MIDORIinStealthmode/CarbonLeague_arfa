@@ -36,7 +36,7 @@ const NFTCard = ({ nft }) => (
 );
 
 // NFT Marketplace Component
-const NFTMarketplace = () => (
+export const NFTMarketplace = () => (
   <div className="nft-marketplace">
     <h2 className="font-bold text-xl mb-2">Trending NFTs</h2>
     <div className="nft-grid">
@@ -46,7 +46,3 @@ const NFTMarketplace = () => (
     </div>
   </div>
 );
-
-
-
-export default NFTMarketplace;

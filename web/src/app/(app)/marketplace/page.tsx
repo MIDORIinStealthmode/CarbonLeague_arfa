@@ -1,4 +1,4 @@
-import {ListingList} from "@/app/marketplace/ListingList";
+import {ListingList} from "./ListingList";
 
 export default function MarketplacePage() {
   return (
