@@ -10,9 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {DirectListingV3, NFT} from "@thirdweb-dev/sdk";
+import {DirectListingV3} from "@thirdweb-dev/sdk";
 import {PropsWithChildren} from "react";
-import {NftCard} from "@/app/profile/NftCard";
 import {
   useAddress,
   useBuyDirectListing,
@@ -20,7 +19,7 @@ import {
   useCreateDirectListing,
   useDirectListings
 } from "@thirdweb-dev/react";
-import {ListingCard} from "@/app/marketplace/ListingCard";
+import {ListingCard} from "./ListingCard";
 
 type Props = {
   listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
