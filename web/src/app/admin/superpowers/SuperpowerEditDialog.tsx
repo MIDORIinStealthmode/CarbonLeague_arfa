@@ -99,7 +99,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
 
   return (
     <Dialog
-      open={!!editId || create}
+      open={!!editId || create || false}
       onOpenChange={onClose}
     >
       <DialogContent className="max-w-xl w-full">
