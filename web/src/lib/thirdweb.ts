@@ -1,5 +1,4 @@
-import {ChainId, ThirdwebSDK} from "@thirdweb-dev/sdk";
-import {Goerli} from "@thirdweb-dev/chains";
+import {ThirdwebSDK} from "@thirdweb-dev/sdk";
 
 // @ts-ignore @SEE https://github.com/thirdweb-dev/js/pull/2085
 globalThis.TW_SKIP_FETCH_SETUP = true;
