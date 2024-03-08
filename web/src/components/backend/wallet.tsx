@@ -1,21 +1,15 @@
 import { LocalWallet, SmartWallet } from "@thirdweb-dev/wallets";
 import {
-  THIRDWEB_API_KEY,
-  chain,
-  factoryAddress,
-} from "./constants";
-import {
   ThirdwebSDK,
-  Transaction,
   isContractDeployed,
 } from "@thirdweb-dev/react";
 
 export function createSmartWallet(): SmartWallet {
   const smartWallet = new SmartWallet({
-    chain: chain,
-    factoryAddress: factoryAddress,
+    chain: process.env.NEXT_PUBLIC_CHAIN_ID!,
+    factoryAddress: process.env.NEXT_PUBLIC_ACCOUNT_FACTORY_ADDRESS!,
+    clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!,
     gasless: true,
-    clientId: THIRDWEB_API_KEY || "",
   });
   return smartWallet;
 }
@@ -25,10 +19,8 @@ export async function getWalletAddressForUser(
   sdk: ThirdwebSDK,
   username: string
 ): Promise<string> {
-  const factory = await sdk.getContract(factoryAddress);
-  const smartWalletAddress: string = await factory.call("accountOfUsername", 
-  [username]
-  );
+  const factory = await sdk.getContract(process.env.NEXT_PUBLIC_ACCOUNT_FACTORY_ADDRESS!);
+  const smartWalletAddress: string = await factory.call("accountOfUsername", [username]);
   return smartWalletAddress;
 }
 
@@ -39,12 +31,7 @@ export async function connectToSmartWallet(
   statusCallback?: (status: string) => void
 ): Promise<SmartWallet> {
   statusCallback?.("Checking if user has a wallet...");
-  const sdk = new ThirdwebSDK(
-    chain,
-     {
-    clientId: THIRDWEB_API_KEY || "",
-    }
-  );
+  const sdk = new ThirdwebSDK(process.env.NEXT_PUBLIC_CHAIN_ID!,  { clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID! });
   const smartWalletAddress = await getWalletAddressForUser(sdk, username);
   const isDeployed = await isContractDeployed(
     smartWalletAddress,

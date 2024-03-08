@@ -19,8 +19,8 @@ export default function LoginUI() {
               </div>
           )}
           <Login
-          isOpen={isModalOpen}
-          onClose={() => setIsOpen(false)}
+            isOpen={isModalOpen}
+            onClose={() => setIsOpen(false)}
           />
         </div>
     );
