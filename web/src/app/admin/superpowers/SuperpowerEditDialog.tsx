@@ -155,21 +155,25 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'year'>
                 control={form.control}
                 name="year"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>year</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="year" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="year"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>NFT year</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'name'>
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -183,7 +187,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'description'>
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -197,7 +201,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'imageUrl'>
                 control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
@@ -238,7 +242,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                 alt="NFT Image"
                 className="max-h-40 row-span-2"
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'rank'>
                 control={form.control}
                 name="rank"
                 render={({ field }) => (
@@ -252,7 +256,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'score'>
                 control={form.control}
                 name="score"
                 render={({ field }) => (
@@ -266,7 +270,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
                   </FormItem>
                 )}
               />
-              <FormField<Superpower>
+              <FormField<Superpower, 'categoryId'>
                 control={form.control}
                 name="categoryId"
                 render={({ field }) => (
