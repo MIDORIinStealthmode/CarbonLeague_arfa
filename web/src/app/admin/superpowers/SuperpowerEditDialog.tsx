@@ -30,7 +30,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
   const form = useForm<Superpower>({
     resolver: zodResolver(SuperpowerSchema.extend({
       id: create ? z.string().optional() : z.string(),
-      nftId: z.string().optional(),
+      tokenId: z.string().optional(),
       rank: z.preprocess(v => Number(v), z.number().int()),
       score: z.preprocess(v => Number(v), z.number().int()),
       year: z.preprocess(v => Number(v), z.number().int())
@@ -54,6 +54,8 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
     const url = await upload(file)
     setValue('imageUrl', url)
   }
+
+  console.log(form.formState.errors)
 
   const { mutate } = useMutation({
     mutationFn: async (data: Superpower) => {

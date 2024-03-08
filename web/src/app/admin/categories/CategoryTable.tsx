@@ -1,41 +1,27 @@
 "use client"
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-
-import {Company} from "@/lib/schema/zod";
-
-const columns: ColumnDef<Company>[] = [
-  {
-    accessorKey: "id",
-    header: "id",
-  },
-  {
-    accessorKey: "name",
-    header: "name",
-  }
-]
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {Category} from '@/lib/schema/zod'
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {CategoryEditDialog} from "@/app/admin/categories/CategoryEditDialog";
 
 type Props = {
-  companies: Company[]
+  categories: Category[]
 }
 
-export function CompanyTable({companies}: Props) {
+export function CategoryTable({categories}: Props) {
+  const columns: ColumnDef<Category>[] = [
+    {
+      accessorKey: "id",
+      header: "id",
+    },
+    {
+      accessorKey: "name",
+      header: "name",
+    }
+  ]
   const table = useReactTable({
-    data: companies,
+    data: categories,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
@@ -44,7 +30,7 @@ export function CompanyTable({companies}: Props) {
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
+        {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
@@ -84,6 +70,7 @@ export function CompanyTable({companies}: Props) {
           )}
         </TableBody>
       </Table>
+      <CategoryEditDialog  />
     </div>
   )
 }

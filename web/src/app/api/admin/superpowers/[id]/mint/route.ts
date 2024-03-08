@@ -11,8 +11,9 @@ type Params = {
 }
 
 export const POST = async (request: Request, {params: { id } }: Params) => {
+  const { address } = await request.json() as { address: string }
   const superpowerContract = await getSuperpowerContract()
-  const res = await (await superpowerContract.call('safeMint', ['0x9fD2b1a1BEAd245825ca3F5505a20987eDC57A2A'])) as MintResponse
+  const res = await (await superpowerContract.call('safeMint', [address])) as MintResponse
   const tokenId = hexToNumber(res.receipt.logs[0].topics[3])
   const superpower = await prisma.superpower.update({ where: { id }, data: { tokenId } })
 
