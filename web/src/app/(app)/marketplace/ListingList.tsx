@@ -29,7 +29,7 @@ export const ListingList = () => {
   }, [inView])
 
   useEffect(() => {
-    if (listings?.length < page * 10) {
+    if (listings && (listings.length < page * 10)) {
       setHasMore(false)
     }
   }, [listings]);
