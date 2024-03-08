@@ -110,9 +110,9 @@ export type CarbonEmission = z.infer<typeof CarbonEmissionSchema>
 export const ScoreReportSchema = z.object({
   id: z.string().uuid(),
   carbonEmissionId: z.string(),
-  scoreCO2Reduction: z.number().int(),
-  scoreCarbonEfficiency: z.number().int(),
-  totalScore: z.number().int(),
+  scoreCO2Reduction: z.number(),
+  scoreCarbonEfficiency: z.number(),
+  totalScore: z.number(),
 })
 
 export type ScoreReport = z.infer<typeof ScoreReportSchema>
