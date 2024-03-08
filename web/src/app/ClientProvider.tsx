@@ -9,22 +9,22 @@ const activeChain = process.env.NEXT_PUBLIC_CHAIN_ID === '11155111' ? Sepolia : 
 
 export const ClientProvider = ({ children }: PropsWithChildren) => {
   return (
-    <ThirdwebProvider
-      activeChain={activeChain}
-      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-      supportedWallets={[
-        smartWallet(
-          embeddedWallet(),
-          {
-            factoryAddress: process.env.NEXT_PUBLIC_ACCOUNT_FACTORY_ADDRESS!,
-            gasless: true,
-          }
-        ),
-      ]}
-    >
-      <QueryProvider>
+    <QueryProvider>
+      <ThirdwebProvider
+        activeChain={activeChain}
+        clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+        supportedWallets={[
+          smartWallet(
+            embeddedWallet(),
+            {
+              factoryAddress: process.env.NEXT_PUBLIC_ACCOUNT_FACTORY_ADDRESS!,
+              gasless: true,
+            }
+          ),
+        ]}
+      >
         {children}
-      </QueryProvider>
-    </ThirdwebProvider>
+      </ThirdwebProvider>
+    </QueryProvider>
   )
 }
