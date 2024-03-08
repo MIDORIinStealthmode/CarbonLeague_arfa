@@ -2,7 +2,6 @@
 
 import {PropsWithChildren} from "react";
 import {ThirdwebProvider, embeddedWallet, smartWallet} from "@thirdweb-dev/react";
-import {QueryProvider} from "@/app/QueryProvider";
 import {Sepolia} from "@thirdweb-dev/chains";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
