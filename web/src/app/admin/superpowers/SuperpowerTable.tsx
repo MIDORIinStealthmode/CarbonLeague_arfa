@@ -25,15 +25,13 @@ import {Mint} from "@/app/admin/superpowers/Mint";
 
 type Props = {
   superpowers: (Superpower & { company: Company, category: Category })[]
+  onEdit: (id: string) => void
 }
 
-export function SuperpowerTable<TData, TValue>({superpowers}: Props) {
-  const [editId, setEditId] = useState<string>()
-  const [create, setCreate] = useState(false)
-
+export function SuperpowerTable({superpowers, onEdit}: Props) {
   const columns: ColumnDef<Superpower>[] = useMemo(() => [
     {accessorKey: "id"},
-    {accessorKey: "nftId"},
+    {accessorKey: "tokenId"},
     {accessorKey: "name"},
     {
       accessorKey: "imageUrl",
@@ -55,10 +53,10 @@ export function SuperpowerTable<TData, TValue>({superpowers}: Props) {
     {accessorKey: "company.name"},
     {
       accessorKey: "action",
-      cell: ({ row }) => (
+      cell: ({ row, getValue }) => (
         <div className="flex gap-2">
-          <Button onClick={() => setEditId(row.getValue('id'))}>edit</Button>
-          <Mint superpowerId={row.id} />
+          <Button onClick={() => onEdit(row.getValue('id'))}>edit</Button>
+          <Mint superpowerId={row.getValue('id')} disabled={!!row.getValue('tokenId')}/>
         </div>
       )
     },
@@ -72,63 +70,49 @@ export function SuperpowerTable<TData, TValue>({superpowers}: Props) {
   const rows = table.getRowModel().rows
 
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <div className="flex w-full justify-between align-center">
-        <h1>Superpower一覧</h1>
-        <Button onClick={() => setCreate(true)}>新規作成</Button>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
-                  )
-                })}
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {rows?.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          ) : (
+            rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {rows?.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            ) : (
-              rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-        <SuperpowerEditDialog
-          editId={editId}
-          create={create}
-          onClose={() => {
-            setEditId(undefined)
-            setCreate(false)
-          }}
-        />
-      </div>
+            ))
+          )}
+        </TableBody>
+      </Table>
     </div>
   )
 }

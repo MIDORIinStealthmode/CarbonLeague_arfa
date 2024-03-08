@@ -10,7 +10,7 @@ export const GET = async (request: Request) => {
 
 export const POST = async (request: Request) => {
   const rawData = await request.json()
-  const data = SuperpowerSchema.omit({ id: true }).parse(rawData)
+  const data = SuperpowerSchema.omit({ id: true, tokenId: true }).parse(rawData)
 
   const superpower = await prisma.superpower.create({ data })
 

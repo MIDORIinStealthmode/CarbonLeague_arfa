@@ -1,5 +1,5 @@
-import {SuperpowerTable} from "@/app/admin/superpowers/SuperpowerTable";
 import prisma from "@/lib/prisma";
+import {SuperpowerList} from "@/app/admin/superpowers/SuperpowerList";
 
 export const dynamic = 'force-dynamic'
 
@@ -12,6 +12,6 @@ export default async function AdminSuperpowersPage() {
   });
 
   return (
-    <SuperpowerTable superpowers={superpowers}/>
+    <SuperpowerList superpowers={superpowers}/>
   );
 }
