@@ -1,1 +1,0 @@
-const queryClient = new QueryClient()
