@@ -40,7 +40,7 @@ export const CompanyEditDialog = ({ editId, create, onClose }: Props) => {
   return (
     <Dialog
       open={!!editId || create || false}
-      onClose={onClose}
+      onOpenChange={(o) => o || onClose()}
     >
       <DialogContent>
         <Form {...form}>
