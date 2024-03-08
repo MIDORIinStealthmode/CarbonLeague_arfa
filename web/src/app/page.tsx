@@ -15,14 +15,14 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-    <main className="">
-      <Sidebar />
-      <div className="MainComponent">
-        <h1 className="font-bold text-xl mb-2">Carbon League</h1>
-        <p>Carbon League is a game that rewards you for supporting real-world heros reducing carbon emmisions.</p>
-        <NFTMarketplace />
-      </div>
-    </main>
+      <main className="">
+        <Sidebar />
+        <div className="MainComponent">
+          <h1 className="font-bold text-xl mb-2">Carbon League</h1>
+          <p>Carbon League is a game that rewards you for supporting real-world heros reducing carbon emmisions.</p>
+          <NFTMarketplace />
+        </div>
+      </main>
     </div>
   )
 }
