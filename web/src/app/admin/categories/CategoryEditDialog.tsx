@@ -1,6 +1,6 @@
 'use client'
 
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import {Dialog, DialogContent} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {useForm} from "react-hook-form";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
