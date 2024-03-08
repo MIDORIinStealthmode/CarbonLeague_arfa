@@ -4,12 +4,14 @@ import {PropsWithChildren} from "react";
 import {ThirdwebProvider, embeddedWallet, smartWallet} from "@thirdweb-dev/react";
 import {QueryProvider} from "@/app/QueryProvider";
 import {Sepolia} from "@thirdweb-dev/chains";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const activeChain = process.env.NEXT_PUBLIC_CHAIN_ID === '11155111' ? Sepolia : process.env.NEXT_PUBLIC_CHAIN_ID!
+const queryProvider = new QueryClient()
 
 export const ClientProvider = ({ children }: PropsWithChildren) => {
   return (
-    <QueryProvider>
+    <QueryClientProvider client={queryProvider}>
       <ThirdwebProvider
         activeChain={activeChain}
         clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
@@ -22,9 +24,10 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
             }
           ),
         ]}
+        queryClient={queryProvider}
       >
         {children}
       </ThirdwebProvider>
-    </QueryProvider>
+    </QueryClientProvider>
   )
 }
