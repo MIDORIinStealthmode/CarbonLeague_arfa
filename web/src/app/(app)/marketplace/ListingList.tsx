@@ -6,6 +6,8 @@ import {useListings} from "@/hooks/useMarketplace";
 import {RefObject, useEffect, useRef, useState} from "react";
 import {useInView} from "react-intersection-observer";
 
+const PER_PAGE = 10
+
 export const ListingList = () => {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
@@ -19,7 +21,7 @@ export const ListingList = () => {
     error,
   } = useListings({
     start: 0,
-    count: 10 * page,
+    count: PER_PAGE * page,
   });
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export const ListingList = () => {
   }, [inView])
 
   useEffect(() => {
-    if (listings && (listings.length < page * 10)) {
+    if (listings && (listings.length < page * PER_PAGE)) {
       setHasMore(false)
     }
   }, [listings]);
