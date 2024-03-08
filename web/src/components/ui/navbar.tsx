@@ -7,21 +7,22 @@ import LoginUI from './loginUI';
 const Navbar = () => {
     return (
         <nav className="navbar">
-            {/* Logo Section */}
-            <div className="navbar-logo">Logo Here</div>
-            
-            {/* Navigation Links */}
-            <div>
-                <LoginUI />
-            </div>
-            <ul className="navbar-links">
-                    <ConnectWallet
-                dropdownPosition={{
+          {/* Logo Section */}
+          <div className="navbar-logo">Logo Here</div>
+          
+          {/* Navigation Links */}
+          <div>
+            <LoginUI />
+          </div>
+
+          <ul className="navbar-links">
+            <ConnectWallet
+              dropdownPosition={{
                 side: "bottom",
                 align: "center",
-                }}
+              }}
             />
-            </ul>
+          </ul>
         </nav>
     );
 }
