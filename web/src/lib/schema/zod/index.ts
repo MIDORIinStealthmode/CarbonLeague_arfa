@@ -20,6 +20,10 @@ export const CategoryScalarFieldEnumSchema = z.enum(['id','name']);
 
 export const SuperpowerScalarFieldEnumSchema = z.enum(['id','tokenId','imageUrl','name','description','rank','score','year','categoryId','companyId']);
 
+export const CarbonEmissionScalarFieldEnumSchema = z.enum(['id','year','companyId','scope1','scope2','scope3','revenue','revenueUnit']);
+
+export const ScoreReportScalarFieldEnumSchema = z.enum(['id','carbonEmissionId','scoreCO2Reduction','scoreCarbonEfficiency','totalScore']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -81,3 +85,34 @@ export const SuperpowerSchema = z.object({
 })
 
 export type Superpower = z.infer<typeof SuperpowerSchema>
+
+/////////////////////////////////////////
+// CARBON EMISSION SCHEMA
+/////////////////////////////////////////
+
+export const CarbonEmissionSchema = z.object({
+  id: z.string().uuid(),
+  year: z.number().int(),
+  companyId: z.string(),
+  scope1: z.number().nullable(),
+  scope2: z.number().nullable(),
+  scope3: z.number().nullable(),
+  revenue: z.number().nullable(),
+  revenueUnit: z.string().nullable(),
+})
+
+export type CarbonEmission = z.infer<typeof CarbonEmissionSchema>
+
+/////////////////////////////////////////
+// SCORE REPORT SCHEMA
+/////////////////////////////////////////
+
+export const ScoreReportSchema = z.object({
+  id: z.string().uuid(),
+  carbonEmissionId: z.string(),
+  scoreCO2Reduction: z.number().int(),
+  scoreCarbonEfficiency: z.number().int(),
+  totalScore: z.number().int(),
+})
+
+export type ScoreReport = z.infer<typeof ScoreReportSchema>
