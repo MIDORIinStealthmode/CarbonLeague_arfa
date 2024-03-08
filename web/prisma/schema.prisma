@@ -35,9 +35,10 @@ model User {
 }
 
 model Company {
-  id          String       @id @default(uuid())
-  name        String
-  superpowers Superpower[]
+  id              String           @id @default(uuid())
+  name            String
+  superpowers     Superpower[]
+  carbonEmissions CarbonEmission[]
 }
 
 model Category {
@@ -60,4 +61,32 @@ model Superpower {
   category   Category @relation(fields: [categoryId], references: [id])
   companyId  String
   company    Company  @relation(fields: [companyId], references: [id])
+}
+
+model CarbonEmission {
+  id   String @id @default(uuid())
+  year Int
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  scope1      Float?
+  scope2      Float?
+  scope3      Float?
+  revenue     Float?
+  revenueUnit String?
+
+  @@unique([companyId, year])
+
+  scoreReport ScoreReport?
+}
+
+model ScoreReport {
+  id               String         @id @default(uuid())
+  carbonEmissionId String         @unique
+  carbonEmission   CarbonEmission @relation(fields: [carbonEmissionId], references: [id])
+
+  scoreCO2Reduction     Int
+  scoreCarbonEfficiency Int
+  totalScore            Int
 }
