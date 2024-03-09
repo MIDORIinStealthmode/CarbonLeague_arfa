@@ -11,29 +11,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {DirectListingV3} from "@thirdweb-dev/sdk";
-import {PropsWithChildren} from "react";
 import {ListingCard} from "../common/ListingCard";
 import {useBuyListing} from "@/hooks/useMarketplace";
 
 type Props = {
-  listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
+  listing?: DirectListingV3
+  onClose: () => void
 }
 
-export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
-  const { buy, isLoading, error } = useBuyListing(listing.id)
+export const BuyListingDialog = ({ listing, onClose }: Props) => {
+  const { buy, isLoading, error } = useBuyListing()
 
   const handleSubmit = async () => {
-    const result = await buy()
+    if (!listing) return
+
+    const result = await buy(listing.id)
     console.log(result)
+    onClose()
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button>
-          {children}
-        </button>
-      </DialogTrigger>
+    <Dialog open={!!listing}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create Listing</DialogTitle>
@@ -45,6 +43,9 @@ export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>
           <ListingCard listing={listing}/>
         </div>
         <DialogFooter>
+          <Button onClick={onClose}>
+            キャンセル
+          </Button>
           <Button
             loading={isLoading}
             disabled={isLoading}
