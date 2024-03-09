@@ -29,6 +29,20 @@ export const GET = async (request: Request, {params}: Params) => {
     return NextResponse.json({})
   }
 
+  const carbonEmission = await prisma.carbonEmission.findFirst({
+    where: {
+      year: superpower.year,
+      companyId: superpower.companyId
+    },
+    include: {
+      scoreReport: {
+        select: {
+          totalScore: true
+        }
+      }
+    }
+  })
+
   const metadata = {
     "image": superpower.imageUrl,
     "external_url": `${process.env.HOST}/superpowers/${superpower.tokenId}`,
@@ -36,7 +50,7 @@ export const GET = async (request: Request, {params}: Params) => {
     "name": superpower.name,
     "attributes": [
       { "trait_type": "rank", "value": superpower.rank },
-      { "trait_type": "score", "value": superpower.company.scoreReport.totalScore },
+      { "trait_type": "score", "value": carbonEmission?.scoreReport?.totalScore || 0 },
       { "trait_type": "company", "value": superpower.company.name },
       { "trait_type": "year", "value": superpower.year },
       { "trait_type": "category", "value": superpower.category.name }
