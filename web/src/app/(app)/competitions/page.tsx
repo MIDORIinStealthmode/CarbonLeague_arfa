@@ -17,14 +17,6 @@ type Competition = {
   status: CompetitionStatus
 }
 
-const demoCompetitions: Competition[] = [
-  {
-    id: 'demo-1',
-    title: 'Demo1',
-    status: 'upcoming'
-  }
-]
-
 export default function CompetitionsPage() {
   return (
     <div>

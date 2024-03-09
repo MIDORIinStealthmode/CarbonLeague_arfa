@@ -95,11 +95,19 @@ model ScoreReport {
   totalScore            Float?
 }
 
+enum CompetitinStatus {
+  UPCOMING
+  OPEN
+  CLOSED
+  FINISHED
+}
+
 model Competition {
-  id        String   @id @default(uuid())
+  id        String           @id @default(uuid())
   name      String
   startDate DateTime
   endDate   DateTime
+  status    CompetitinStatus @default(UPCOMING)
 
   entries CompetitionEntry[]
 }
