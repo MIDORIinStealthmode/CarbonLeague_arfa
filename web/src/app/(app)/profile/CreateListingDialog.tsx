@@ -11,41 +11,36 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {NFT} from "@thirdweb-dev/sdk";
-import {PropsWithChildren} from "react";
-import {NftCard} from "@/app/profile/NftCard";
-import {useContract, useCreateDirectListing, useDirectListings} from "@thirdweb-dev/react";
+import {PropsWithChildren, useState} from "react";
+import {NftCard} from "../common/NftCard";
+import {useCreateListing} from "@/hooks/useMarketplace";
+import {Input} from "@/components/ui/input";
+import {useRouter} from "next/navigation";
 
 type Props = {
   nft: NFT
 }
 
 export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>) => {
-  const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
+  const [open, setOpen] = useState(false)
+  const [price, setPrice] = useState(0)
   const {
-    data: listings,
-    isLoading: listLoading,
-    error: listError
-  } = useDirectListings(contract, { tokenId: nft.metadata.id });
-  const listing = listings?.[0];
-  const {
-    mutateAsync: createDirectListing,
-    isLoading: createLoading,
-    error: createError,
-  } = useCreateDirectListing(contract);
-
-  const isLoading = listLoading || createLoading;
-  const error = listError || createError;
+    listing,
+    createListing,
+    isLoading,
+    error
+  } = useCreateListing(nft)
+  const router = useRouter()
 
   const handleSubmit = async () => {
-    const result = await createDirectListing({
-      tokenId: nft.metadata!.id,
-      pricePerToken: "0.001",
-      assetContractAddress: process.env.NEXT_PUBLIC_SUPERPOWER_ADDRESS!,
-    })
+    const result = await createListing(price)
+    console.log(result)
+    setOpen(false)
+    router.refresh()
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button>
           {children}
@@ -58,17 +53,27 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
             このNFTを出品しますか
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="flex flex-col justify-center items-center gap-4 w-full">
           <NftCard nft={nft}/>
+          <div className="flex gap-1 items-center">
+            <Input
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              type="number"
+              step="0.001"
+              data-format="$1 ETH"
+            />
+            <span>ETH</span>
+          </div>
         </div>
         <DialogFooter>
           <Button
             onClick={handleSubmit}
             disabled={!!listing}
+            loading={isLoading}
           >出品</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   )
 }
-
