@@ -59,12 +59,11 @@ export const CreateListingDialog = ({ nft, children }: PropsWithChildren<Props>)
             <Input
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
-              label="Price"
               type="number"
               step="0.001"
               data-format="$1 ETH"
             />
-            <spna>ETH</spna>
+            <span>ETH</span>
           </div>
         </div>
         <DialogFooter>

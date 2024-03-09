@@ -3,17 +3,16 @@
 import {ListingCard} from "../common/ListingCard";
 import {BuyListingDialog} from "./BuyListingDialog";
 import {useListings} from "@/hooks/useMarketplace";
-import {RefObject, useEffect, useRef, useState} from "react";
-import {useInView} from "react-intersection-observer";
+import {useEffect, useRef, useState} from "react";
+import {useIntersectionObserver} from "@/hooks/useIntersectionObserver";
 
 const PER_PAGE = 10
 
 export const ListingList = () => {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const { ref: loader, inView } = useInView({
-    rootMargin: '-50px',
-  });
+  const ref = useRef(null)
+  useIntersectionObserver<HTMLDivElement>(ref, () => setPage((prev) => prev + 1))
 
   const {
     data: listings,
@@ -23,12 +22,6 @@ export const ListingList = () => {
     start: 0,
     count: PER_PAGE * page,
   });
-
-  useEffect(() => {
-    if (inView) {
-      setPage((prev) => prev + 1);
-    }
-  }, [inView])
 
   useEffect(() => {
     if (listings && (listings.length < page * PER_PAGE)) {
@@ -50,7 +43,7 @@ export const ListingList = () => {
           <ListingCard listing={listing}/>
         </BuyListingDialog>
       ))}
-      {hasMore && <div ref={loader as RefObject<HTMLDivElement>} />}
+      {hasMore && <div ref={ref} />}
     </div>
   )
 }
