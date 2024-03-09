@@ -1,6 +1,7 @@
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
-export default function CompetitionDetailPage() {
+export default async function CompetitionDetailPage() {
+  
   return (
     <div>
       <h1>コンペ詳細</h1>
