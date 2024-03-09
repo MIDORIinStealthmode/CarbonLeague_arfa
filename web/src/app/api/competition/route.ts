@@ -1,14 +1,24 @@
+import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/lib/prisma";
-import {ResultList} from "./ResultList";
+  
+type Params = {
+    searchParams: {
+        competitionID: string,
+        newYear: string
+    }
+}
 
-
-const competitionID = "60eef0b9-d9f0-4d29-b7c2-f603107a9c7f";
-const newYear = 2022;
-
-async function getSuperpowerIDsByTotalScore(competitionID: string, newYear: number) {
-    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
+export const GET = async (request: NextRequest, params: Params) => {
+    const searchParams = request.nextUrl.searchParams
+    const query = searchParams.get('competitionID')
+    const query2 = searchParams.get('newYear')
+    console.log(query, query2)
+    
+    const url = new URL(request.url);
+    const competitionID = url.searchParams.get("competitionID");
+    const newYear = parseInt(url.searchParams.get("newYear"));    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
     const competitionEntries = await prisma.competitionEntry.findMany({
-      where: { competitionId: competitionID },
+      where: { competitionId: String(competitionID) },
       include: {
         superpower: {
           include: {
@@ -25,7 +35,6 @@ async function getSuperpowerIDsByTotalScore(competitionID: string, newYear: numb
         }
       }
     }});
-  
     // Step 2: 取得したデータからtotalScoreを基にソート
     const sortedEntries = competitionEntries
       .map(entry => ({
@@ -35,8 +44,5 @@ async function getSuperpowerIDsByTotalScore(competitionID: string, newYear: numb
       .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート
       .map(entry => entry.superpowerId); // 最終的にsuperpowerIdの配列を返す
   
-    return sortedEntries;
-    console.log(sortedEntries);
+      return NextResponse.json(sortedEntries);
   }
-  
-    getSuperpowerIDsByTotalScore(competitionID, newYear);
