@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Link from "next/link";
-import Prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import {EntrySheet} from "@/app/(app)/competitions/EntrySheet";
 
 type CompetitionStatus = 'upcoming' | '開催中' | 'finished'
 
@@ -21,7 +22,7 @@ type Competition = {
 export default async function CompetitionsPage() {
   const competitions = await prisma.competition.findMany({
     orderBy: {
-      startDate: Prisma.SortOrder.desc,
+      startDate: 'desc' as any,
     }
   })
 
@@ -51,9 +52,7 @@ export default async function CompetitionsPage() {
               <TableCell>{competition.startDate.toLocaleDateString()}</TableCell>
               <TableCell>{competition.endDate.toLocaleDateString()}</TableCell>
               <TableCell className="text-right">
-                <Link href={`/competitions/${competition.id}/entry`}>
-                  Entry
-                </Link>
+                <EntrySheet competition={competition} />
               </TableCell>
             </TableRow>
           ))}
