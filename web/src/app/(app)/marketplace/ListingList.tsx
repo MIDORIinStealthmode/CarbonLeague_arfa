@@ -30,18 +30,12 @@ export const ListingList = () => {
 
   return (
     <div className="flex gap-4 flex-wrap">
-      {isLoading && !listings && (
-        <>
-          <ListingCard />
-          <ListingCard />
-          <ListingCard />
-        </>
-      )}
       {listings && listings.map((listing, i) => (
         <a onClick={() => setListing(listing)} key={i}>
           <ListingCard listing={listing}/>
         </a>
       ))}
+      {isLoading && <ListingCard />}
       {hasMore && <div ref={ref} />}
       <BuyListingDialog listing={listing} onClose={() => setListing(undefined)} />
     </div>
