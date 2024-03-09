@@ -31,19 +31,7 @@ export default function CompetitionsPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {demoCompetitions.map((competition) => (
-            <TableRow key={competition.id}>
-              <TableCell className="font-medium">{competition.id}</TableCell>
-              <TableCell>
-                <Link href={`/competitions/${competition.id}`}>
-                  {competition.title}
-                </Link>
-              </TableCell>
-              <TableCell>{competition.status}</TableCell>
-              <TableCell className="text-right">
-              </TableCell>
-            </TableRow>
-          ))}
+          
         </TableBody>
       </Table>
     </div>
