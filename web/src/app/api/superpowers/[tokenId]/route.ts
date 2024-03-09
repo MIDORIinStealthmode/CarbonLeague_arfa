@@ -28,7 +28,7 @@ export const GET = async (request: Request, {params}: Params) => {
   if (!superpower) {
     return NextResponse.json({})
   }
-  const carbonEmission = await prisma.carbonEmission.findFirstOrThrow({
+  const carbonEmission = await prisma.carbonEmission.findFirst({
     where: {
       year: superpower.year,
       companyId: superpower.companyId
@@ -49,7 +49,7 @@ export const GET = async (request: Request, {params}: Params) => {
     "name": superpower.name,
     "attributes": [
       { "trait_type": "rank", "value": superpower.rank },
-      { "trait_type": "score", "value": carbonEmission.scoreReport.totalScore },
+      { "trait_type": "score", "value": carbonEmission?.scoreReport?.totalScore || 0 },
       { "trait_type": "company", "value": superpower.company.name },
       { "trait_type": "year", "value": superpower.year },
       { "trait_type": "category", "value": superpower.category.name }
