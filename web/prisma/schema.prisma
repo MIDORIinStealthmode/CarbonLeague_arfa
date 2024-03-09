@@ -120,4 +120,8 @@ model CompetitionEntry {
   user          User        @relation(fields: [userId], references: [id])
   superpowerId  String
   superpower    Superpower  @relation(fields: [superpowerId], references: [id])
+  order         Int
+
+  @@unique([competitionId, userId, superpowerId])
+  @@unique([competitionId, userId, order])
 }
