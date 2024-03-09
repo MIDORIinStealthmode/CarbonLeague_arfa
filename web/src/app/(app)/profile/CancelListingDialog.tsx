@@ -11,41 +11,35 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {DirectListingV3, NFT} from "@thirdweb-dev/sdk";
-import {PropsWithChildren} from "react";
-import {NftCard} from "@/app/profile/NftCard";
-import {
-  useAddress,
-  useBuyDirectListing,
-  useContract,
-  useCreateDirectListing,
-  useDirectListings
-} from "@thirdweb-dev/react";
-import {ListingCard} from "@/app/marketplace/ListingCard";
+import {PropsWithChildren, useState} from "react";
+import {NftCard} from "../common/NftCard";
+import {useCancelListing, useCreateListing} from "@/hooks/useMarketplace";
+import {Input} from "@/components/ui/input";
+import {ListingCard} from "@/app/(app)/common/ListingCard";
+import {useRouter} from "next/navigation";
 
 type Props = {
-  listing: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
+  listing: DirectListingV3
 }
 
-export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
-  const address = useAddress();
-  const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
+export const CancelListingDialog = ({ listing, children }: PropsWithChildren<Props>) => {
+  const [open, setOpen] = useState(false)
   const {
-    mutateAsync: buyListing,
+    cancel,
     isLoading,
     error
-  } = useBuyDirectListing(contract);
+  } = useCancelListing(listing.id)
+  const router = useRouter()
 
   const handleSubmit = async () => {
-    const result = await buyListing({
-      listingId: listing.id,
-      quantity: "1",
-      buyer: address!,
-    })
+    const result = await cancel()
     console.log(result)
+    setOpen(false)
+    router.refresh()
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button>
           {children}
@@ -55,16 +49,18 @@ export const BuyListingDialog = ({ listing, children }: PropsWithChildren<Props>
         <DialogHeader>
           <DialogTitle>Create Listing</DialogTitle>
           <DialogDescription>
-            このNFTを購入しますか
+            この出品を取り消しますか
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="flex flex-col justify-center items-center gap-4 w-full">
           <ListingCard listing={listing}/>
         </div>
         <DialogFooter>
           <Button
             onClick={handleSubmit}
-          >購入</Button>
+            loading={isLoading}
+            disabled={isLoading}
+          >取り消す</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

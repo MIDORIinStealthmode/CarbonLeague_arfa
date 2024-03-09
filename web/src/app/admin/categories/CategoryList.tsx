@@ -16,7 +16,7 @@ export const CategoryList = (props: Props) => {
 
   return (
     <div className="p-4 flex flex-col gap-4">
-      <div className="flex w-full justify-between align-center">
+      <div className="flex w-full justify-between items-center">
         <h1>カテゴリ一覧</h1>
         <Button onClick={() => setCreate(true)}>Create</Button>
       </div>

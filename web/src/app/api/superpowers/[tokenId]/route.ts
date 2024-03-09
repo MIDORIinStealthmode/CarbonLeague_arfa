@@ -8,7 +8,7 @@ type Params = {
 }
 
 export const GET = async (request: Request, {params}: Params) => {
-  const superpower = await prisma.superpower.findFirstOrThrow({
+  const superpower = await prisma.superpower.findFirst({
     where: {
       tokenId: Number(params.tokenId)
     },
@@ -38,6 +38,9 @@ export const GET = async (request: Request, {params}: Params) => {
       }
     }
   })
+  if (!superpower) {
+    return NextResponse.json({})
+  }
 
   const metadata = {
     "image": superpower.imageUrl,

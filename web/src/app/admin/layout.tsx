@@ -1,5 +1,6 @@
 import {PropsWithChildren} from "react";
 import {AdminNav} from "@/app/admin/AdminNav";
+import {AdminClientProvider} from "@/app/admin/AdminClientProvider";
 
 export default function AdminLayout({ children }: PropsWithChildren) {
   return (
@@ -9,7 +10,9 @@ export default function AdminLayout({ children }: PropsWithChildren) {
       </header>
       <div className="flex flex-1">
         <AdminNav />
-        <main className="flex-1 w-full h-full">{children}</main>
+        <AdminClientProvider>
+          <main className="flex-1 w-full h-full">{children}</main>
+        </AdminClientProvider>
       </div>
     </div>
   )
