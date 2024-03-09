@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { decl } from 'postcss'
 
 const prismaClientSingleton = () => {
   return new PrismaClient()
