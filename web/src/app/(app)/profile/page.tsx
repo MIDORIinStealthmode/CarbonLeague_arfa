@@ -1,6 +1,5 @@
 import {MyNftList} from "@/app/(app)/profile/MyNftList";
 
-
 export default function ProfilePage() {
   return (
     <div>

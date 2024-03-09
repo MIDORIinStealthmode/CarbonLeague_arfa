@@ -24,7 +24,7 @@ const AttributeTag = ({ nft, type }: AttributeTagProps) => {
 
 export const NftCard = ({ nft, isListed }: Props) => {
   return (
-    <div className="min-w-60 w-60 h-92 bg-white rounded-md overflow-hidden drop-shadow-md">
+    <div className="min-w-60 minh-92 w-60 h-92 bg-white rounded-md overflow-hidden drop-shadow-md">
       <div className="aspect-square w-full">
         {nft ? (
           <Image src={nft.metadata.image!} alt={nft.metadata.image!} width={300} height={300}/>

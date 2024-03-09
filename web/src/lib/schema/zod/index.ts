@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','name']);
+export const UserScalarFieldEnumSchema = z.enum(['id','address']);
 
 export const CompanyScalarFieldEnumSchema = z.enum(['id','name']);
 
@@ -48,8 +48,7 @@ export type CompetitinStatusType = `${z.infer<typeof CompetitinStatusSchema>}`
 
 export const UserSchema = z.object({
   id: z.string().uuid(),
-  email: z.string(),
-  name: z.string().nullable(),
+  address: z.string(),
 })
 
 export type User = z.infer<typeof UserSchema>
