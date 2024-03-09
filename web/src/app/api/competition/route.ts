@@ -12,7 +12,6 @@ export const GET = async (request: NextRequest, params: Params) => {
     const searchParams = request.nextUrl.searchParams
     const query = searchParams.get('competitionID')
     const query2 = searchParams.get('newYear')
-    console.log(query, query2)
     
     const url = new URL(request.url);
     const competitionID = url.searchParams.get("competitionID");
@@ -35,6 +34,7 @@ export const GET = async (request: NextRequest, params: Params) => {
         }
       }
     }});
+
     // Step 2: 取得したデータからtotalScoreを基にソート
     const sortedEntries = competitionEntries
       .map(entry => ({
@@ -42,7 +42,7 @@ export const GET = async (request: NextRequest, params: Params) => {
         totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0
       }))
       .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート
-      .map(entry => entry.superpowerId); // 最終的にsuperpowerIdの配列を返す
+      .map(entry => ({ superpowerId: entry.superpowerId, totalScore: entry.totalScore }));
   
       return NextResponse.json(sortedEntries);
   }
