@@ -74,7 +74,7 @@ export const useCancelListing = (listingId: string) => {
   };
 }
 
-export const useBuyListing = (listingId: string) => {
+export const useBuyListing = () => {
   const address = useAddress();
   const { contract } = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, "marketplace-v3");
   const {
@@ -83,7 +83,7 @@ export const useBuyListing = (listingId: string) => {
     error
   } = useBuyDirectListing(contract);
   
-  const buy = () => {
+  const buy = (listingId) => {
     if (!address) return Promise.reject(new Error("No address")); 
 
     return buyListing({
