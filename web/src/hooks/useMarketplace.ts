@@ -83,7 +83,7 @@ export const useBuyListing = () => {
     error
   } = useBuyDirectListing(contract);
   
-  const buy = (listingId) => {
+  const buy = (listingId: string) => {
     if (!address) return Promise.reject(new Error("No address")); 
 
     return buyListing({
