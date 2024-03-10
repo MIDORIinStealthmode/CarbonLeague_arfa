@@ -10,19 +10,22 @@ type Props = {
 
 export const EntrySheet = async ({ competition }: Props) => {
   const user = await getUserModel()
-  const entry = user && await prisma.competitionEntry.findFirst({
+  const entries = user && await prisma.competitionEntry.findMany({
     where: {
       competitionId: competition.id,
       userId: user.id,
     },
-  }) as CompetitionEntry
+    include: {
+      superpower: true,
+    },
+  }) as CompetitionEntry[]
 
   return (
     <Sheet>
       {
         competition.status === "UPCOMING" ? null :
           competition.status === 'OPEN' ? (
-            user ? <SheetTrigger>{entry ? "Edit Entry" : "Entry"}</SheetTrigger> : <SheetTrigger disabled={true}>Entry</SheetTrigger>
+            user ? <SheetTrigger>{entries ? "Edit Entry" : "Entry"}</SheetTrigger> : <SheetTrigger disabled={true}>Entry</SheetTrigger>
           ) :
             competition.status === 'CLOSED' ? null :
               competition.status === 'FINISHED' ? (
@@ -34,7 +37,7 @@ export const EntrySheet = async ({ competition }: Props) => {
           <SheetTitle>Entry &quot;{competition.name}&quot;</SheetTitle>
         </SheetHeader>
 
-        <EntryForm competition={competition} />
+        <EntryForm competition={competition} entries={entries} />
       </SheetContent>
     </Sheet>
   )
