@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,13 +10,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import {EntrySheet} from "@/app/(app)/competitions/EntrySheet";
 
-type CompetitionStatus = 'upcoming' | '開催中' | 'finished'
-
-type Competition = {
-  id: string
-  title: string
-  status: CompetitionStatus
-}
+export const dynamic="force-dynamic"
 
 export default async function CompetitionsPage() {
   const competitions = await prisma.competition.findMany({
