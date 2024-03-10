@@ -18,6 +18,9 @@ export const EntrySheet = async ({ competition }: Props) => {
     include: {
       superpower: true,
     },
+    orderBy: {
+      order: 'asc' as any,
+    }
   }) as (CompetitionEntry & { superpower: Superpower })[]
 
   return (
