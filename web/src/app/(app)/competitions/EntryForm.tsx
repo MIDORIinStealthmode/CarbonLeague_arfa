@@ -77,7 +77,7 @@ export const EntryForm = (props: Props) => {
         >
           <div className="flex gap-4 flex-wrap w-1/3 h-full overflow-y-scroll border-r">
             {(nfts || []).map((nft) => (
-              <div onClick={() => onSelect(nft.metadata.id)} className="pointer">
+              <div key={nft.metadata.id} onClick={() => onSelect(nft.metadata.id)} className="pointer">
                 <NftCard key={nft.metadata.id} nft={nft}/>
               </div>
             ))}
@@ -88,13 +88,13 @@ export const EntryForm = (props: Props) => {
             <div className="flex gap-4 items-center justify-center flex-1 h-max">
               {nfts && (
                 <>
-                  <div onClick={() => setToken1(undefined)} className="pointer">
+                  <div onClick={() => setToken1(null)} className="pointer">
                     <NftCard nft={nfts.find((nft) => nft.metadata.id === token1)} />
                   </div>
-                  <div onClick={() => setToken2(undefined)} className="pointer">
+                  <div onClick={() => setToken2(null)} className="pointer">
                     <NftCard nft={nfts.find((nft) => nft.metadata.id === token2)} />
                   </div>
-                  <div onClick={() => setToken3(undefined)} className="pointer">
+                  <div onClick={() => setToken3(null)} className="pointer">
                     <NftCard nft={nfts.find((nft) => nft.metadata.id === token3)} />
                   </div>
                 </>
