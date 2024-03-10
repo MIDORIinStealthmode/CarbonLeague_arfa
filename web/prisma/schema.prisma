@@ -29,9 +29,8 @@ generator zod {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
+  id      String @id @default(uuid())
+  address String @unique
 
   entries CompetitionEntry[]
 }
