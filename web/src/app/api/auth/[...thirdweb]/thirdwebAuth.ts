@@ -1,6 +1,7 @@
 import { ThirdwebAuthAppRouter } from "@thirdweb-dev/auth/next";
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 import {ChainOrRpcUrl} from "@thirdweb-dev/sdk";
+import {User} from "@/lib/schema/zod";
 
 // @ts-ignore @SEE https://github.com/thirdweb-dev/js/pull/2085
 globalThis.TW_SKIP_FETCH_SETUP = true;
@@ -18,7 +19,7 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuthAppRouter(
   },
 );
 
-export const getUserModel = async () => {
+export const getUserModel = async (): Promise<null | User> => {
   const accountUser = await getUser();
 
   if (!accountUser) {

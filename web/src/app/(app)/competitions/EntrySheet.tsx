@@ -7,6 +7,7 @@ type Props = {
 }
 
 export const EntrySheet = ({ competition }: Props) => {
+
   return (
     <Sheet>
       <SheetTrigger>Entry</SheetTrigger>
