@@ -42,7 +42,6 @@ export default async function CompetitionsPage() {
         <TableBody>
           {competitions.map((competition) => (
             <TableRow key={competition.id}>
-              <TableCell className="font-medium">{competition.id}</TableCell>
               <TableCell>
                 <Link href={`/competitions/${competition.id}`}>
                   {competition.name}

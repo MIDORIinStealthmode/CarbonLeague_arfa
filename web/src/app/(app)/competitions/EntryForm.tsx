@@ -1,28 +1,25 @@
 'use client'
 
 import { NftCard } from "@/app/(app)/common/NftCard"
-import { CompetitionEntryBodySchema, CompetitionEntryRequestBody } from "@/app/api/competitions/[id]/entry/schema"
+import { CompetitionEntryRequestBody } from "@/app/api/competitions/[id]/entry/schema"
 import { useMySuperpowers } from "@/hooks/useSuperpower"
-import { Competition } from "@/lib/schema/zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import {Competition, CompetitionEntry, Superpower} from "@/lib/schema/zod"
 import { useMutation } from "@tanstack/react-query"
-import { useForm } from "react-hook-form"
 import {FormEvent, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
 import {SheetClose} from "@/components/ui/sheet";
 
 type Props = {
   competition: Competition
+  entries: (CompetitionEntry & { superpower: Superpower })[] | null
 }
 
 export const EntryForm = (props: Props) => {
   const { competition } = props
-  const router = useRouter()
   const { data: nfts } = useMySuperpowers()
-  const [token1, setToken1] = useState<string>()
-  const [token2, setToken2] = useState<string>()
-  const [token3, setToken3] = useState<string>()
+  const [token1, setToken1] = useState<string | null>(props.entries && props.entries[0]?.superpower.tokenId?.toString() || null)
+  const [token2, setToken2] = useState<string | null>(props.entries && props.entries[1]?.superpower.tokenId?.toString() || null)
+  const [token3, setToken3] = useState<string  | null>(props.entries && props.entries[2]?.superpower.tokenId?.toString() || null)
   const invalid = !token1 || !token2 || !token3
   const [submitted, setSubmitted] = useState(false)
 
@@ -58,7 +55,6 @@ export const EntryForm = (props: Props) => {
 
       mutate(data, {
         onSuccess: () => {
-          alert('エントリーしました')
           setSubmitted(true)
         }
       })
