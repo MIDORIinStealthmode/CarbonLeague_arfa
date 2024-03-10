@@ -10,7 +10,7 @@ type Params = {
   }
 }
 
-export const maxDuration = 30
+export const maxDuration = 10
 
 export const POST = async (request: Request, {params: { id } }: Params) => {
   const { address } = await request.json() as { address: string }
