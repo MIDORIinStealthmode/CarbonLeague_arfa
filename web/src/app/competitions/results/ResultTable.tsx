@@ -16,9 +16,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import {Category, Company, Superpower} from "@/lib/schema/zod";
+import {Superpower} from "@/lib/schema/zod";
 import {useEffect, useMemo, useState} from "react";
-import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import { set } from "zod";
 import { json } from "stream/consumers";
@@ -43,10 +42,10 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
   fetchData();
   }, [competitionId, newYear]);
 
-    const columns: ColumnDef<Superpower>[] = useMemo(() => [
+    const columns: ColumnDef<any>[] = useMemo(() => [
       {accessorKey: "id"},
-      {accessorKey: "tokenId"},
       {accessorKey: "name"},
+      {accessorKey: "totalScore"},
       {
         accessorKey: "imageUrl",
         cell: ({ getValue }) => (
@@ -60,9 +59,7 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
         )
       },
       {accessorKey: "description"},
-      {accessorKey: "score"},
       {accessorKey: "year"},
-      {accessorKey: "category.name"},
       {accessorKey: "company.name"},
     ], [])
   
