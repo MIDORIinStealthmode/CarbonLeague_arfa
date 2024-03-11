@@ -14,8 +14,6 @@ let newYear = 2022;
 
 export const GET = async (request: NextRequest, params: Params) => {
     const searchParams = request.nextUrl.searchParams
-    const query = searchParams.get('competitionID')
-    const query2 = searchParams.get('newYear')
     
     const url = new URL(request.url);
     const competitionID = url.searchParams.get("competitionID");
@@ -60,36 +58,5 @@ export const GET = async (request: NextRequest, params: Params) => {
       console.log(sortedEntries);
       console.log(superpowerData);
   
-      return NextResponse.json(sortedEntries, superpowerData);
+      return NextResponse.json({sortedEntries, superpowerData});
   }
-
-
-// export const GET = async (request: NextRequest, params: Params) => {    
-//       //APIコールして、コンペティションの結果（superpower, total score）を取得する
-//         const apicall = async () => {
-//           const res = await fetch(`/api/competition/?competitionID=${competitionId}&newYear=${newYear}`);
-//           if (!res.ok) {
-//             throw new Error('Fetching error');
-//           }
-//           const data = await res.json();
-//           console.log(data);
-//           const superpowerIdArray = data.map(obj => obj.superpowerId);
-//           return superpowerIdArray;
-
-//           data
-//         }
-
-//        const databasecall = async (superpowerId: string) => {
-//         const superpowerData = await prisma.superpower.findMany({
-//             where: {id: superpowerId},
-//         });
-
-//         const getsuperpower = async () => {
-//             const superpowerIdArray = await apicall();
-//             const superpowerData = superpowerIdArray.forEach((superpowerId: string) => databasecall(superpowerId));
-//             return superpowerData;
-//         };
-//     }
-//     return NextResponse.json(superpowerData);
-// }
-
