@@ -1,4 +1,3 @@
-//使わないエンドポイント
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/lib/prisma";
   
@@ -9,10 +8,12 @@ type Params = {
     }
 }
 
+let competitionId = "60eef0b9-d9f0-4d29-b7c2-f603107a9c7f";
+let newYear = 2022;
+
+
 export const GET = async (request: NextRequest, params: Params) => {
     const searchParams = request.nextUrl.searchParams
-    const query = searchParams.get('competitionID')
-    const query2 = searchParams.get('newYear')
     
     const url = new URL(request.url);
     const competitionID = url.searchParams.get("competitionID");
@@ -40,12 +41,13 @@ export const GET = async (request: NextRequest, params: Params) => {
     const sortedEntries = competitionEntries
       .map(entry => ({
         superpowerId: entry.superpowerId,
-        totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0
+        superpowername: entry.superpower.name,
+        totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0,
+        imageUrl: entry.superpower.imageUrl,
+        description: entry.superpower.description,
+        year: entry.superpower.year
       }))
-      .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート
-      .map(entry => ({ superpowerId: entry.superpowerId, totalScore: entry.totalScore }));
+      .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート;
 
-      console.log(sortedEntries);
-  
-      return NextResponse.json(sortedEntries);
+      return NextResponse.json({sortedEntries});
   }

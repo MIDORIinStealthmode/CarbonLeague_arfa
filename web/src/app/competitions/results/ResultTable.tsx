@@ -39,7 +39,7 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
 
   useEffect(() => {
   const fetchData = async () => {
-    const res = await fetch(`/api/admin/competitions/${competitionId}/database?newYear=${newYear}&competitionID=${competitionId}`);
+    const res = await fetch(`/api/competition?newYear=${newYear}&competitionID=${competitionId}`);
     const jsonData = await res.json()
     setData(jsonData.sortedEntries)
     console.log(jsonData)
