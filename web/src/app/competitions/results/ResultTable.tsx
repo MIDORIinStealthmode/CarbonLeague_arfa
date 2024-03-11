@@ -20,32 +20,38 @@ import {Superpower} from "@/lib/schema/zod";
 import {useEffect, useMemo, useState} from "react";
 import Image from "next/image";
 import { set } from "zod";
-import { json } from "stream/consumers";
 
 
 type Props = {
   competitionId: string
   newYear: number
 }
-
+type Entry = {
+  superpowerId: string
+  totalScore: number
+  superpowername: string
+  imageUrl: string
+  description: string
+  year: number
+}
 export const ResultTable = ({ competitionId, newYear}: Props) => {
-  const [data, setData] = useState([])
-  const [address, setAddress] = useState('')
+  const [data, setData] = useState<Entry[]>([])
 
   useEffect(() => {
   const fetchData = async () => {
     const res = await fetch(`/api/admin/competitions/${competitionId}/database?newYear=${newYear}&competitionID=${competitionId}`);
     const jsonData = await res.json()
-    setData(jsonData)
+    setData(jsonData.sortedEntries)
     console.log(jsonData)
   };
   fetchData();
   }, [competitionId, newYear]);
 
-    const columns: ColumnDef<any>[] = useMemo(() => [
-      {header: "ID", accessorKey: "id"},
-      {header: "name", accessorKey: "name"},
+
+    const columns: ColumnDef<Entry>[] = useMemo(() => [
+      {header: "ID", accessorKey: "superpowerId"},
       {header: "totalScore", accessorKey: "totalScore"},
+      {header: "name", accessorKey: "superpowername"},
       {
         header: "imageUrl",
         accessorKey: "imageUrl",
@@ -63,12 +69,15 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
       {header: "year", accessorKey: "year"},
     ], [])
   
-    const table = useReactTable({
+    const table = useReactTable<Entry>({
       data: data,
       columns,
       getCoreRowModel: getCoreRowModel(),
     })
     const rows = table.getRowModel().rows
+
+    console.log(data)
+
   
     return (
       <div className="rounded-md border">

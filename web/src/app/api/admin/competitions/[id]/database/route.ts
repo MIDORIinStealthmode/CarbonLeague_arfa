@@ -41,7 +41,7 @@ export const GET = async (request: NextRequest, params: Params) => {
     const sortedEntries = competitionEntries
       .map(entry => ({
         superpowerId: entry.superpowerId,
-        superpower: entry.superpower.name,
+        superpowername: entry.superpower.name,
         totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0,
         imageUrl: entry.superpower.imageUrl,
         description: entry.superpower.description,
