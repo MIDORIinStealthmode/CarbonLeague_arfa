@@ -1,4 +1,4 @@
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {Competition, CompetitionEntry, Superpower} from "@/lib/schema/zod";
 import {EntryForm} from "@/app/(app)/competitions/EntryForm";
 import {getUserModel} from "@/app/api/auth/[...thirdweb]/thirdwebAuth";
