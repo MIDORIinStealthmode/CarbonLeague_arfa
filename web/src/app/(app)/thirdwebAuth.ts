@@ -6,7 +6,7 @@ import prisma from "@/lib/prisma";
 // @ts-ignore @SEE https://github.com/thirdweb-dev/js/pull/2085
 globalThis.TW_SKIP_FETCH_SETUP = true;
 
-export const { ThirdwebAuthHandler, getUser } = ThirdwebAuthAppRouter(
+export const { ThirdwebAuthHandler, getUser } = ThirdwebAuthAppRouter<{}, {}>(
   {
     domain: process.env.NEXT_PUBLIC_DOMAIN || "",
     wallet: new PrivateKeyWallet(
@@ -17,15 +17,16 @@ export const { ThirdwebAuthHandler, getUser } = ThirdwebAuthAppRouter(
       secretKey: process.env.THIRDWEB_CLIENT_SECRET!,
     },
     callbacks: {
-      onLogin: async (address: string) => {
+      onLogin: async (address: string): Promise<void> => {
         if (!await prisma.user.findFirst({ where: { address } })) {
           await prisma.user.create({ data: { address } });
         }
       }
     }
-  },
+  }
 );
 
+// ログインしているユーザーを取得
 export const getUserModel = async (): Promise<null | User> => {
   const accountUser = await getUser();
 

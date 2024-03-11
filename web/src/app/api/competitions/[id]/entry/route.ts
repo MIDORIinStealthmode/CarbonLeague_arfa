@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import {getUserModel} from "@/app/api/auth/[...thirdweb]/thirdwebAuth"
+import {getUserModel} from "@/app/(app)/thirdwebAuth"
 import { NextResponse } from "next/server"
 import {CompetitionEntryBodySchema} from "@/app/api/competitions/[id]/entry/schema";
 
@@ -45,7 +45,7 @@ export const POST = async (request: Request, {params}: Params) => {
       where: {
         competitionId_userId_order: {
           userId: user.id,
-          competitionId: params.id,
+          competitionId,
           order: i
         }
       },

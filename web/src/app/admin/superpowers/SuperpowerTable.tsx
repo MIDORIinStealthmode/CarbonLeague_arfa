@@ -17,9 +17,8 @@ import {
 } from "@/components/ui/table"
 
 import {Category, Company, Superpower} from "@/lib/schema/zod";
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {Button} from "@/components/ui/button";
-import {SuperpowerEditDialog} from "@/app/admin/superpowers/SuperpowerEditDialog";
 import Image from "next/image";
 import {Mint} from "@/app/admin/superpowers/Mint";
 
