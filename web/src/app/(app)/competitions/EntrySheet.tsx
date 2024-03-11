@@ -3,6 +3,7 @@ import {Competition, CompetitionEntry, Superpower} from "@/lib/schema/zod";
 import {EntryForm} from "@/app/(app)/competitions/EntryForm";
 import {getUserModel} from "@/app/api/auth/[...thirdweb]/thirdwebAuth";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 
 type Props = {
   competition: Competition
