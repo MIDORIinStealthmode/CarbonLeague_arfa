@@ -1,4 +1,3 @@
-//使わないエンドポイント
 import {NextRequest, NextResponse} from "next/server";
 import prisma from "@/lib/prisma";
   
@@ -8,6 +7,10 @@ type Params = {
         newYear: string
     }
 }
+
+let competitionId = "60eef0b9-d9f0-4d29-b7c2-f603107a9c7f";
+let newYear = 2022;
+
 
 export const GET = async (request: NextRequest, params: Params) => {
     const searchParams = request.nextUrl.searchParams
@@ -45,7 +48,48 @@ export const GET = async (request: NextRequest, params: Params) => {
       .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート
       .map(entry => ({ superpowerId: entry.superpowerId, totalScore: entry.totalScore }));
 
+
+
+      //step 3: 取得したsuperpowerIdを元に、superpowerのデータを取得する
+      const superpowerIds = sortedEntries.map(entry => entry.superpowerId);
+
+      const superpowerData = await prisma.superpower.findMany({
+        where: {id: { in: superpowerIds}},
+      });
+
       console.log(sortedEntries);
+      console.log(superpowerData);
   
-      return NextResponse.json(sortedEntries);
+      return NextResponse.json(sortedEntries, superpowerData);
   }
+
+
+// export const GET = async (request: NextRequest, params: Params) => {    
+//       //APIコールして、コンペティションの結果（superpower, total score）を取得する
+//         const apicall = async () => {
+//           const res = await fetch(`/api/competition/?competitionID=${competitionId}&newYear=${newYear}`);
+//           if (!res.ok) {
+//             throw new Error('Fetching error');
+//           }
+//           const data = await res.json();
+//           console.log(data);
+//           const superpowerIdArray = data.map(obj => obj.superpowerId);
+//           return superpowerIdArray;
+
+//           data
+//         }
+
+//        const databasecall = async (superpowerId: string) => {
+//         const superpowerData = await prisma.superpower.findMany({
+//             where: {id: superpowerId},
+//         });
+
+//         const getsuperpower = async () => {
+//             const superpowerIdArray = await apicall();
+//             const superpowerData = superpowerIdArray.forEach((superpowerId: string) => databasecall(superpowerId));
+//             return superpowerData;
+//         };
+//     }
+//     return NextResponse.json(superpowerData);
+// }
+
