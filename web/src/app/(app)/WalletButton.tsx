@@ -13,7 +13,8 @@ export const WalletButton = () => {
         align: "center",
       }}
       auth={{
-        onLogin: router.refresh
+        onLogin: router.refresh,
+        onLogout: () => router.push('/')
       }}
     />
   )

@@ -26,8 +26,6 @@ export const ListingList = () => {
     }
   }, [listings]);
 
-  console.log(page, hasMore)
-
   return (
     <div className="flex gap-4 flex-wrap">
       {listings && listings.map((listing, i) => (

@@ -17,17 +17,10 @@ export const TrendingNft = () => {
         <Link href="/marketplace" className="font-bold text-neutral-600 text-xl underline">More</Link>
       </div>
       <div className="flex w-full gap-4 p-2 overflow-x-auto">
-        {isLoading && (
-          <>
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-          </>
-        )}
         {data && data.map((listing, i) => (
           <ListingCard listing={listing} key={i} />
         ))}
+        {isLoading && <ListingCard />}
       </div>
     </div>
   )

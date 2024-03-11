@@ -1,9 +1,6 @@
-import prisma from "@/lib/prisma";
 import {TrendingNft} from "@/app/(app)/TrendingNft";
 
 export default async function Home() {
-
-
   return (
     <div className="w-full flex flex-col">
       <div className="py-16">
