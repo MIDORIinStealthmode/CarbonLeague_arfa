@@ -55,8 +55,30 @@ export const GET = async (request: NextRequest, params: Params) => {
         where: {id: { in: superpowerIds}},
       });
 
-      console.log(sortedEntries);
-      console.log(superpowerData);
+      const superpowerMap = superpowerData.reduce((acc, cur) => {
+        acc[cur.id] = cur;
+        return acc;
+      }, {});
+       
+
+      const combinedData = sortedEntries.map(entry => {
+        const superpower = superpowerMap[entry.superpowerId];
+        if (!superpower) return null; // 対応するsuperpowerDataが見つからない場合はnullを返す
+        
+      
+        return [
+          entry.superpowerId,
+          entry.totalScore,
+          superpower.name,
+          superpower.imageUrl,
+          superpower.description,
+          superpower.year
+        ];
+      }).filter(item => item !== null); // nullの要素をフィルタリング
+
+      console.log(combinedData);
+      
+      
   
-      return NextResponse.json({sortedEntries, superpowerData});
+      return NextResponse.json({combinedData});
   }
