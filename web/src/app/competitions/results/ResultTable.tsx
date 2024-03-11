@@ -43,10 +43,11 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
   }, [competitionId, newYear]);
 
     const columns: ColumnDef<any>[] = useMemo(() => [
-      {accessorKey: "id"},
-      {accessorKey: "name"},
-      {accessorKey: "totalScore"},
+      {header: "ID", accessorKey: "id"},
+      {header: "name", accessorKey: "name"},
+      {header: "totalScore", accessorKey: "totalScore"},
       {
+        header: "imageUrl",
         accessorKey: "imageUrl",
         cell: ({ getValue }) => (
           <Image
@@ -58,9 +59,8 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
           />
         )
       },
-      {accessorKey: "description"},
-      {accessorKey: "year"},
-      {accessorKey: "company.name"},
+      {header: "description", accessorKey: "description"},
+      {header: "year", accessorKey: "year"},
     ], [])
   
     const table = useReactTable({

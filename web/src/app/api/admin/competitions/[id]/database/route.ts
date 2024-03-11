@@ -41,44 +41,13 @@ export const GET = async (request: NextRequest, params: Params) => {
     const sortedEntries = competitionEntries
       .map(entry => ({
         superpowerId: entry.superpowerId,
-        totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0
+        superpower: entry.superpower.name,
+        totalScore: entry.superpower.company.carbonEmissions[0]?.scoreReport?.totalScore??0,
+        imageUrl: entry.superpower.imageUrl,
+        description: entry.superpower.description,
+        year: entry.superpower.year
       }))
-      .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート
-      .map(entry => ({ superpowerId: entry.superpowerId, totalScore: entry.totalScore }));
+      .sort((a, b) => b.totalScore - a.totalScore) // totalScoreで降順ソート;
 
-
-
-      //step 3: 取得したsuperpowerIdを元に、superpowerのデータを取得する
-      const superpowerIds = sortedEntries.map(entry => entry.superpowerId);
-
-      const superpowerData = await prisma.superpower.findMany({
-        where: {id: { in: superpowerIds}},
-      });
-
-      const superpowerMap = superpowerData.reduce((acc, cur) => {
-        acc[cur.id] = cur;
-        return acc;
-      }, {});
-       
-
-      const combinedData = sortedEntries.map(entry => {
-        const superpower = superpowerMap[entry.superpowerId];
-        if (!superpower) return null; // 対応するsuperpowerDataが見つからない場合はnullを返す
-        
-      
-        return [
-          entry.superpowerId,
-          entry.totalScore,
-          superpower.name,
-          superpower.imageUrl,
-          superpower.description,
-          superpower.year
-        ];
-      }).filter(item => item !== null); // nullの要素をフィルタリング
-
-      console.log(combinedData);
-      
-      
-  
-      return NextResponse.json({combinedData});
+      return NextResponse.json({sortedEntries});
   }
