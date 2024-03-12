@@ -24,7 +24,7 @@ export const CarbonEmissionScalarFieldEnumSchema = z.enum(['id','year','companyI
 
 export const ScoreReportScalarFieldEnumSchema = z.enum(['id','carbonEmissionId','scoreCO2Reduction','scoreCarbonEfficiency','totalScore']);
 
-export const CompetitionScalarFieldEnumSchema = z.enum(['id','name','startDate','endDate','status']);
+export const CompetitionScalarFieldEnumSchema = z.enum(['id','name','startDate','endDate','status','year']);
 
 export const CompetitionEntryScalarFieldEnumSchema = z.enum(['id','competitionId','userId','superpowerId','order']);
 
@@ -135,6 +135,7 @@ export const CompetitionSchema = z.object({
   name: z.string(),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
+  year: z.number().int(),
 })
 
 export type Competition = z.infer<typeof CompetitionSchema>

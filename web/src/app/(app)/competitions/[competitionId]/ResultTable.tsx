@@ -16,15 +16,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import {Superpower} from "@/lib/schema/zod";
+import {Competition, Superpower} from "@/lib/schema/zod";
 import {useEffect, useMemo, useState} from "react";
 import Image from "next/image";
 import { set } from "zod";
 
 
 type Props = {
-  competitionId: string
-  newYear: number
+  competition: Competition
 }
 type Entry = {
   superpowerId: string
@@ -34,18 +33,18 @@ type Entry = {
   description: string
   year: number
 }
-export const ResultTable = ({ competitionId, newYear}: Props) => {
+export const ResultTable = ({ competition }: Props) => {
   const [data, setData] = useState<Entry[]>([])
 
   useEffect(() => {
   const fetchData = async () => {
-    const res = await fetch(`/api/competition?newYear=${newYear}&competitionID=${competitionId}`);
+    const res = await fetch(`/api/competition?competitionID=${competition.id}`);
     const jsonData = await res.json()
     setData(jsonData.sortedEntries)
     console.log(jsonData)
   };
   fetchData();
-  }, [competitionId, newYear]);
+  }, [competition]);
 
 
     const columns: ColumnDef<Entry>[] = useMemo(() => [
@@ -76,9 +75,6 @@ export const ResultTable = ({ competitionId, newYear}: Props) => {
     })
     const rows = table.getRowModel().rows
 
-    console.log(data)
-
-  
     return (
       <div className="rounded-md border">
         <Table>

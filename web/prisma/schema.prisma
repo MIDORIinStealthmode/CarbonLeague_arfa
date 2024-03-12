@@ -107,6 +107,7 @@ model Competition {
   startDate DateTime
   endDate   DateTime
   status    CompetitinStatus @default(UPCOMING)
+  year      Int              @default(2022)
 
   entries CompetitionEntry[]
 }

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Competition" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 2022;

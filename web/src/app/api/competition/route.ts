@@ -4,20 +4,17 @@ import prisma from "@/lib/prisma";
 type Params = {
     searchParams: {
         competitionID: string,
-        newYear: string
     }
 }
 
-let competitionId = "60eef0b9-d9f0-4d29-b7c2-f603107a9c7f";
-let newYear = 2022;
-
-
 export const GET = async (request: NextRequest, params: Params) => {
-    const searchParams = request.nextUrl.searchParams
-    
     const url = new URL(request.url);
     const competitionID = url.searchParams.get("competitionID");
-    const newYear = parseInt(<string>url.searchParams.get("newYear"));    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
+    const competition = await prisma.competition.findUniqueOrThrow({
+      where: { id: String(competitionID) }
+    });
+    const newYear = competition.year;
+    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
     const competitionEntries = await prisma.competitionEntry.findMany({
       where: { competitionId: String(competitionID) },
       include: {

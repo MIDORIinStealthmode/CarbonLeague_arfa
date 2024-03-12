@@ -1,29 +1,25 @@
-import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import { ResultTable } from "./ResultTable";
+import prisma from "@/lib/prisma";
 
-export default async function CompetitionDetailPage() {
-  
+type Params = {
+  params: {
+    competitionId: string
+  }
+}
+
+export default async function ResultPage({ params }: Params) {
+  const competition = await prisma.competition.findUniqueOrThrow({ where: { id: params.competitionId }});
+
   return (
     <div>
-      <h1>コンペ詳細</h1>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div className="flex justify-between">
+        <div className="">
+          <h1 className="font-bold text-neutral-900 text-2xl mb-2">Competition Result</h1>
+          <p className="font-bold text-neutral-600">説明</p>
+        </div>
+      </div>
+
+      <ResultTable competition={competition}/>
     </div>
-  )
+  );
 }

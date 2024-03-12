@@ -24,7 +24,7 @@ export const MyNftList = () => {
   }, [data, listings])
 
   return (
-    <div className="flex w-full gap-4 p-2 flex-wrap">
+    <div className="flex w-full gap-4 p-2 flex-wrap mt-8">
       {isLoading && (
         <>
           <NftCard />
