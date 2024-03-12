@@ -46,7 +46,7 @@ export const EntrySheet = async ({ competition }: Props) => {
           ) :
             competition.status === 'CLOSED' ? null : // CLOSEDはエントリーできない
               competition.status === 'FINISHED' ? ( // FINISHEDは結果を見る
-                <Link asChild href={`/competitions/${competition.id}`}>
+                <Link href={`/competitions/${competition.id}`}>
                   <Button>
                     Result
                   </Button>
