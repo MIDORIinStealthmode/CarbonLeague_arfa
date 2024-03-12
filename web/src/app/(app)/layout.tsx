@@ -9,7 +9,7 @@ export default function AppLayout({ children }: PropsWithChildren) {
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-1 overflow-x-hidden p-4">
+        <main className="flex-1 overflow-x-hidden p-4 bg-teal-50">
           {children}
         </main>
       </div>

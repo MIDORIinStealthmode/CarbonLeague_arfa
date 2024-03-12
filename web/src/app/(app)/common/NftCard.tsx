@@ -20,7 +20,7 @@ const AttributeTag = ({ nft, type }: AttributeTagProps) => {
   if (!attributes) return null
 
   return (
-    <div className="inline-block mx-2 bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
+    <div className="inline-block mx-1 mb-1 px-2 py-1 rounded-full text-xs font-semibold text-gray-700 bg-gray-200 ">
       {(attributes as any).find((attr: any) => attr.trait_type === type).value}
     </div>
   )
@@ -31,7 +31,7 @@ export const NftCard = ({ nft, isListed }: Props) => {
   const attributes = metadata?.attributes
 
   return (
-    <div className="min-w-60 minh-92 w-60 h-92 bg-white rounded-md overflow-hidden drop-shadow-md">
+    <div className="min-w-60 min-h-96 w-60 h-96 bg-white rounded-md overflow-hidden drop-shadow-md">
       <div className="aspect-square w-full">
         {metadata ? (
           <Image src={metadata.image!} alt={metadata.image!} width={300} height={300}/>
@@ -47,7 +47,7 @@ export const NftCard = ({ nft, isListed }: Props) => {
         {metadata ? (<p className="text-gray-700 text-base mb-1 leading-4">{metadata.description}</p>) : (<Skeleton className="w-full h-4 mb-1"/>)}
         {attributes ? (<p className="text-teal-700 text-base font-bold mb-1 leading-4">Score: {(attributes as any).find((attr: any) => attr.trait_type === 'score').value}</p>) : (<Skeleton className="w-full h-4 mb-1"/>)}
       </div>
-      <div className="flex overflow-scroll h-8">
+      <div className="flex flex-wrap">
         <AttributeTag nft={nft} type={"company"}/>
         <AttributeTag nft={nft} type={"category"}/>
         <AttributeTag nft={nft} type={"year"}/>

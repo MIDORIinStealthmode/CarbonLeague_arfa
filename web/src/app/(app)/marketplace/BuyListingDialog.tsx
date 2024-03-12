@@ -38,7 +38,7 @@ export const BuyListingDialog = ({ listing, onClose }: Props) => {
   return (
     <>
     <Dialog open={!!listing}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" hideClose>
         <DialogHeader>
           <DialogTitle>Create Listing</DialogTitle>
           <DialogDescription>
@@ -94,9 +94,9 @@ export const BuyListingDialog = ({ listing, onClose }: Props) => {
         }}
       />
       <Button onClick={() => setCheckoutCardOpen(false)}>
-            キャンセル
-          </Button>
-      </DialogContent>
+        キャンセル
+      </Button>
+    </DialogContent>
   </Dialog>
   </>
   )

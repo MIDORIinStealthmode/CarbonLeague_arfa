@@ -12,7 +12,7 @@ export const SidebarItem = ({ href, children }: PropsWithChildren<Props>) => {
   const pathname = usePathname()
   const active = href.split('/')[1] === pathname.split('/')[1]
   return (
-    <Link href={href} className={`px-2 py-4 ${active && 'bg-neutral-500'} hover:bg-neutral-700`}>
+    <Link href={href} className={`px-2 py-4 font-bold ${active && 'bg-cyan-900 text-white'} hover:bg-cyan-700 hover:text-white`}>
       {children}
     </Link>
   )

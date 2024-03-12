@@ -8,13 +8,11 @@ export const WalletButton = () => {
 
   return (
     <ConnectWallet
+      btnTitle="Sign Up & Sign In"
+      theme="light"
       dropdownPosition={{
         side: "bottom",
         align: "center",
-      }}
-      auth={{
-        onLogin: router.refresh,
-        onLogout: () => router.push('/')
       }}
     />
   )
