@@ -71,7 +71,7 @@ export const BuyListingDialog = ({ listing, onClose }: Props) => {
         clientId={process.env.NEXT_PUBLIC_API_CLIENT_ID}
         configs={{
           // Registered contract ID
-          contractId: process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ID,
+          contractId: process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ID!,
           // Buyer wallet address
           walletAddress: address !== undefined ? address : "",
           mintMethod: {
