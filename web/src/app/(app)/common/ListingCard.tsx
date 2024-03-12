@@ -6,7 +6,7 @@ import React from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 
 type Props = {
-  listing?: DirectListingV3 // TODO listingの代わりにlistingIdとlisting.asset<NFTMEtadata>の方が良き
+  listing?: DirectListingV3
 }
 
 export const ListingCard = ({ listing }: Props) => {

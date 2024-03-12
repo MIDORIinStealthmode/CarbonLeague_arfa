@@ -1,4 +1,5 @@
 import {TrendingNft} from "@/app/(app)/TrendingNft";
+import NextImage from 'next/image';
 
 export default async function Home() {
   return (
