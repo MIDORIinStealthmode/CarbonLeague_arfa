@@ -27,7 +27,7 @@ export const ListingList = () => {
   }, [listings]);
 
   return (
-    <div className="flex gap-4 flex-wrap">
+    <div className="flex gap-4 flex-wrap mt-8">
       {listings && listings.map((listing, i) => (
         <a onClick={() => setListing(listing)} key={i}>
           <ListingCard listing={listing}/>

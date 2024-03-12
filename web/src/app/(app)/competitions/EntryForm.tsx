@@ -65,10 +65,12 @@ export const EntryForm = (props: Props) => {
     <div className="flex h-full">
       {submitted ? (
         <div className="flex flex-col gap-8 flex-1 justify-center items-center">
-          <h1>エントリーが完了しました！</h1>
-          <SheetClose>
-            一覧に戻る
-          </SheetClose>
+          <h1 className="text-2xl font-bold">エントリーが完了しました！</h1>
+            <SheetClose asChild>
+              <Button size="lg" className="w-80 h-20 text-2xl">
+                一覧に戻る
+              </Button>
+            </SheetClose>
         </div>
       ) : (
         <form
@@ -107,8 +109,8 @@ export const EntryForm = (props: Props) => {
                 loading={isLoading}
                 type="submit"
                 size="lg"
-                className="w-80 h-20"
-              >Submit</Button>
+                className="w-80 h-20 text-2xl"
+              >Submit Entry</Button>
             </div>
           </div>
         </form>

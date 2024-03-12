@@ -4,6 +4,7 @@ import {EntryForm} from "@/app/(app)/competitions/EntryForm";
 import {getUserModel} from "@/app/(app)/thirdwebAuth";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import {Button} from "@/components/ui/button";
 
 type Props = {
   competition: Competition
@@ -27,16 +28,33 @@ export const EntrySheet = async ({ competition }: Props) => {
   return (
     <Sheet>
       {
-        competition.status === "UPCOMING" ? null :
-          competition.status === 'OPEN' ? (
-            user ? <SheetTrigger>{entries ? "Edit Entry" : "Entry"}</SheetTrigger> : <SheetTrigger disabled={true}>Entry</SheetTrigger>
+        competition.status === "UPCOMING" ? null : // 開始前はエントリーできない
+          competition.status === 'OPEN' ? (// OPENはエントリー
+            user ? (
+              <SheetTrigger asChild>
+                <Button>
+                  {
+                    entries ? "Edit Entry" : "Entry" // エントリー済みなら編集、未エントリーならエントリー
+                  }
+                </Button>
+              </SheetTrigger>
+            ) : (
+              <Button disabled>
+                Entry
+              </Button>
+            )
           ) :
-            competition.status === 'CLOSED' ? null :
-              competition.status === 'FINISHED' ? (
-                <Link href={`/competitions/${competition.id}`}>Result</Link>
+            competition.status === 'CLOSED' ? null : // CLOSEDはエントリーできない
+              competition.status === 'FINISHED' ? ( // FINISHEDは結果を見る
+                <Link asChild href={`/competitions/${competition.id}`}>
+                  <Button>
+                    Result
+                  </Button>
+                </Link>
               ) : null
       }
-      <SheetContent hideClose className="max-w-full w-full sm:w-full sm:max-w-full">
+      <SheetContent hideClose className="max-w-full w-full sm:w-full sm:max-w-full bg-white bg-opacity-75">
+        <div className="absolute inset-0 bg-[url('/logo.webp')] bg-no-repeat bg-center bg-cover -z-10 opacity-20"/>
         <SheetHeader>
           <SheetTitle>Entry &quot;{competition.name}&quot;</SheetTitle>
         </SheetHeader>

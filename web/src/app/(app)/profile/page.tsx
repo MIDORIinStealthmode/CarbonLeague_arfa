@@ -9,6 +9,7 @@ export default function ProfilePage() {
           <p className="font-bold text-neutral-600">Your Superpowers!!</p>
         </div>
       </div>
+
       <MyNftList />
     </div>
   )
