@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest, params: Params) => {
     
     const url = new URL(request.url);
     const competitionID = url.searchParams.get("competitionID");
-    const newYear = parseInt(url.searchParams.get("newYear"));    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
+    const newYear = parseInt(<string>url.searchParams.get("newYear"));    // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
     const competitionEntries = await prisma.competitionEntry.findMany({
       where: { competitionId: String(competitionID) },
       include: {
