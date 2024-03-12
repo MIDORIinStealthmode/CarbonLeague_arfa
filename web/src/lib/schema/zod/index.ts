@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','name']);
+export const UserScalarFieldEnumSchema = z.enum(['id','address']);
 
 export const CompanyScalarFieldEnumSchema = z.enum(['id','name']);
 
@@ -24,15 +24,20 @@ export const CarbonEmissionScalarFieldEnumSchema = z.enum(['id','year','companyI
 
 export const ScoreReportScalarFieldEnumSchema = z.enum(['id','carbonEmissionId','scoreCO2Reduction','scoreCarbonEfficiency','totalScore']);
 
-export const CompetitionScalarFieldEnumSchema = z.enum(['id','name','startDate','endDate']);
+export const CompetitionScalarFieldEnumSchema = z.enum(['id','name','startDate','endDate','status']);
 
-export const CompetitionEntryScalarFieldEnumSchema = z.enum(['id','competitionId','userId','superpowerId']);
+export const CompetitionEntryScalarFieldEnumSchema = z.enum(['id','competitionId','userId','superpowerId','order']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
+
+export const CompetitinStatusSchema = z.enum(['UPCOMING','OPEN','CLOSED','FINISHED']);
+
+export type CompetitinStatusType = `${z.infer<typeof CompetitinStatusSchema>}`
+
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -43,8 +48,7 @@ export const NullsOrderSchema = z.enum(['first','last']);
 
 export const UserSchema = z.object({
   id: z.string().uuid(),
-  email: z.string(),
-  name: z.string().nullable(),
+  address: z.string(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -126,6 +130,7 @@ export type ScoreReport = z.infer<typeof ScoreReportSchema>
 /////////////////////////////////////////
 
 export const CompetitionSchema = z.object({
+  status: CompetitinStatusSchema,
   id: z.string().uuid(),
   name: z.string(),
   startDate: z.coerce.date(),
@@ -143,6 +148,7 @@ export const CompetitionEntrySchema = z.object({
   competitionId: z.string(),
   userId: z.string(),
   superpowerId: z.string(),
+  order: z.number().int(),
 })
 
 export type CompetitionEntry = z.infer<typeof CompetitionEntrySchema>

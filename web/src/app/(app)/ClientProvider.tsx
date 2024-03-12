@@ -24,6 +24,10 @@ export const ClientProvider = ({ children }: PropsWithChildren) => {
             }
           ),
         ]}
+        authConfig={{
+          authUrl: "/api/auth",
+          domain: process.env.NEXT_PUBLIC_URL!,
+        }}
         queryClient={queryProvider}
       >
         {children}
