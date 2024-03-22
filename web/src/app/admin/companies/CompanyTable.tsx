@@ -30,12 +30,12 @@ const columns: ColumnDef<Company>[] = [
 ]
 
 type Props = {
-  data: Company[]
+  companies: Company[]
 }
 
-export function CompanyTable<TData, TValue>({data}: Props) {
+export function CompanyTable({companies}: Props) {
   const table = useReactTable({
-    data,
+    data: companies,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
