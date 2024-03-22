@@ -6,6 +6,10 @@ import {useRouter} from "next/navigation";
 export const WalletButton = () => {
   const router = useRouter()
 
+  const onLogout = () => {
+    router.replace('/')
+  }
+
   return (
     <ConnectWallet
       btnTitle="Sign Up & Sign In"
@@ -14,6 +18,7 @@ export const WalletButton = () => {
         side: "bottom",
         align: "center",
       }}
+      auth={{ onLogout }}
     />
   )
 }
