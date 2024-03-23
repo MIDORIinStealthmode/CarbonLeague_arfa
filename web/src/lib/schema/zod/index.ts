@@ -34,7 +34,7 @@ export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
 
-export const CompetitinStatusSchema = z.enum(['UPCOMING','OPEN','CLOSED','FINISHED']);
+export const CompetitinStatusSchema = z.enum(['DRAFT','UPCOMING','OPEN','CLOSED','FINISHED','OUTDATED']);
 
 export type CompetitinStatusType = `${z.infer<typeof CompetitinStatusSchema>}`
 

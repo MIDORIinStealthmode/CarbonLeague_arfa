@@ -25,23 +25,25 @@ type Props = {
   onEdit: (id: string) => void
 }
 
-
 export function CompetitionTable({competitions, onEdit}: Props) {
-  const columns: ColumnDef<Competition>[] = 
-  [
+  const columns: ColumnDef<Competition>[] = [
     {accessorKey: "id"},
     {accessorKey: "name"},
+    {accessorKey: "year"},
     {accessorKey: "startDate"},
     {accessorKey: "endDate"},
+    {accessorKey: "status"},
     {
       accessorKey: "action",
-      cell: ({ row, getValue }) => (
+      cell: ({ row }) => (
         <div className="flex gap-2">
-          <Button onClick={() => onEdit(row.getValue('id'))}>End Competition</Button>
+          <Button
+            onClick={() => onEdit(row.getValue('id'))}
+          >Edit</Button>
         </div>
       )
-    }]
-
+    },
+  ]
 
   const table = useReactTable({
     data: competitions,

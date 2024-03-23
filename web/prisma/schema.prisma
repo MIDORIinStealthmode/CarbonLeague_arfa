@@ -80,9 +80,9 @@ model CarbonEmission {
   revenue     Float?
   revenueUnit String?
 
-  @@unique([companyId, year])
-
   scoreReport ScoreReport?
+
+  @@unique([companyId, year])
 }
 
 model ScoreReport {
@@ -96,10 +96,12 @@ model ScoreReport {
 }
 
 enum CompetitinStatus {
-  UPCOMING
-  OPEN
-  CLOSED
-  FINISHED
+  DRAFT // ユーザーに見えない
+  UPCOMING // ユーザーに見えているがエントリーできない
+  OPEN // エントリー可能
+  CLOSED // エントリー終了
+  FINISHED // 結果発表済み
+  OUTDATED // ユーザーに見えない過去のコンペ
 }
 
 model Competition {

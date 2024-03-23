@@ -14,6 +14,11 @@ export const dynamic="force-dynamic"
 
 export default async function CompetitionsPage() {
   const competitions = await prisma.competition.findMany({
+    where: {
+      status: {
+        in: ['UPCOMING', 'OPEN', 'CLOSED', 'FINISHED'],
+      },
+    },
     orderBy: {
       startDate: 'desc' as any,
     }
