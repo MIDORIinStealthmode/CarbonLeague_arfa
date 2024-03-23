@@ -1,7 +1,7 @@
 'use client'
 
 import { NftCard } from "@/app/(app)/common/NftCard"
-import { CompetitionEntryRequestBody } from "@/app/api/competitions/[id]/entry/schema"
+import { CompetitionEntryRequestBody } from "@/app/api/competitions/[id]/entries/schema"
 import { useMySuperpowers } from "@/hooks/useSuperpower"
 import {Competition, CompetitionEntry, Superpower} from "@/lib/schema/zod"
 import { useMutation } from "@tanstack/react-query"
@@ -26,7 +26,7 @@ export const EntryForm = (props: Props) => {
   const [submitted, setSubmitted] = useState(false)
 
   const { mutate, isLoading: mutateIsLoading } = useMutation({
-    mutationFn: (data: CompetitionEntryRequestBody) => fetch(`/api/competitions/${competition.id}/entry`, {
+    mutationFn: (data: CompetitionEntryRequestBody) => fetch(`/api/competitions/${competition.id}/entries`, {
       method: 'POST',
       body: JSON.stringify(data),
       credentials: "include",

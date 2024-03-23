@@ -19,6 +19,7 @@ import {
 import {Competition} from "@/lib/schema/zod";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
+import {FinishButton} from "@/app/admin/competitions/FinishButton";
 
 type Props = {
   competitions: Competition[]
@@ -40,6 +41,9 @@ export function CompetitionTable({competitions, onEdit}: Props) {
           <Button
             onClick={() => onEdit(row.getValue('id'))}
           >Edit</Button>
+          {['OPEN', 'CLOSED'].includes(row.getValue('status')) && (
+            <FinishButton competitionId={row.getValue('id')} />
+          )}
         </div>
       )
     },
