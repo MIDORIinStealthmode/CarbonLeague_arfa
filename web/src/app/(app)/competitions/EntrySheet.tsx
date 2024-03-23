@@ -6,6 +6,8 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import {Button} from "@/components/ui/button";
 
+export const dynamic="force-dynamic"
+
 type Props = {
   competition: Competition
 }
@@ -23,7 +25,7 @@ export const EntrySheet = async ({ competition }: Props) => {
     orderBy: {
       order: 'asc' as any,
     }
-  }) as (CompetitionEntry & { superpower: Superpower })[]
+  }) || [] as (CompetitionEntry & { superpower: Superpower })[]
 
   return (
     <Sheet>
@@ -33,15 +35,11 @@ export const EntrySheet = async ({ competition }: Props) => {
             user ? (
               <SheetTrigger asChild>
                 <Button>
-                  {
-                    entries ? "Edit Entry" : "Entry" // エントリー済みなら編集、未エントリーならエントリー
-                  }
+                  { entries.length > 0 ? "Edit Entry" : "Entry" }
                 </Button>
               </SheetTrigger>
             ) : (
-              <Button disabled>
-                Entry
-              </Button>
+              <Button disabled>Entry</Button>
             )
           ) :
             competition.status === 'CLOSED' ? null : // CLOSEDはエントリーできない

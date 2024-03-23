@@ -40,27 +40,25 @@ export const POST = async (request: Request, {params}: Params) => {
     return new Response(null, { status: 400 })
   }
 
-  const query = superpowers.map((superpower, i) => (
-    prisma.competitionEntry.upsert({
+
+  const entries = await prisma.$transaction([
+    prisma.competitionEntry.deleteMany({
       where: {
-        competitionId_userId_order: {
+        userId: user.id,
+        competitionId
+      }
+    }),
+    ...superpowers.map((superpower, i) => (
+      prisma.competitionEntry.create({
+        data: {
+          superpowerId: superpower.id,
           userId: user.id,
-          competitionId,
+          competitionId: params.id,
           order: i
         }
-      },
-      update: {
-        superpowerId: superpower.id,
-      },
-      create: {
-        superpowerId: superpower.id,
-        userId: user.id,
-        competitionId: params.id,
-        order: i
-      },
-    })
-  ))
-  const entries = await prisma.$transaction([...query])
+      })
+    ))
+  ])
 
   return NextResponse.json(entries);
 }

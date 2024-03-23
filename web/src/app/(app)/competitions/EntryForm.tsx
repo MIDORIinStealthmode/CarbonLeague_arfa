@@ -8,6 +8,8 @@ import { useMutation } from "@tanstack/react-query"
 import {FormEvent, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {SheetClose} from "@/components/ui/sheet";
+import {Loader2} from "lucide-react";
+import * as React from "react";
 
 type Props = {
   competition: Competition
@@ -16,20 +18,22 @@ type Props = {
 
 export const EntryForm = (props: Props) => {
   const { competition } = props
-  const { data: nfts } = useMySuperpowers()
+  const { data: nfts, isLoading: nftIsLoading } = useMySuperpowers()
   const [token1, setToken1] = useState<string | null>(props.entries && props.entries[0]?.superpower.tokenId?.toString() || null)
   const [token2, setToken2] = useState<string | null>(props.entries && props.entries[1]?.superpower.tokenId?.toString() || null)
   const [token3, setToken3] = useState<string  | null>(props.entries && props.entries[2]?.superpower.tokenId?.toString() || null)
   const invalid = !token1 || !token2 || !token3
   const [submitted, setSubmitted] = useState(false)
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading: mutateIsLoading } = useMutation({
     mutationFn: (data: CompetitionEntryRequestBody) => fetch(`/api/competitions/${competition.id}/entry`, {
       method: 'POST',
       body: JSON.stringify(data),
       credentials: "include",
     }).then((res) => res.json()),
   })
+
+  const isLoading = nftIsLoading || mutateIsLoading
 
   const onSelect = (tokenId: string) => {
     if ([token1, token2, token3].includes(tokenId)) {
@@ -63,14 +67,18 @@ export const EntryForm = (props: Props) => {
 
   return (
     <div className="flex h-full">
-      {submitted ? (
+      {isLoading ? (
+        <div className="flex flex-col gap-8 flex-1 justify-center items-center">
+          <Loader2 className="h-20 w-20 animate-spin" />
+        </div>
+      ) : submitted ? (
         <div className="flex flex-col gap-8 flex-1 justify-center items-center">
           <h1 className="text-2xl font-bold">エントリーが完了しました！</h1>
-            <SheetClose asChild>
-              <Button size="lg" className="w-80 h-20 text-2xl">
-                一覧に戻る
-              </Button>
-            </SheetClose>
+          <SheetClose asChild>
+            <Button size="lg" className="w-80 h-20 text-2xl">
+              一覧に戻る
+            </Button>
+          </SheetClose>
         </div>
       ) : (
         <form
@@ -103,7 +111,12 @@ export const EntryForm = (props: Props) => {
               )}
             </div>
 
-            <div>
+            <div className="flex items-center gap-4">
+              <SheetClose asChild>
+                <Button variant="ghost">
+                  一覧に戻る
+                </Button>
+              </SheetClose>
               <Button
                 disabled={invalid || isLoading}
                 loading={isLoading}

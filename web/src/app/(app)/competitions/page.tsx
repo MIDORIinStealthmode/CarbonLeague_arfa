@@ -53,8 +53,8 @@ export default async function CompetitionsPage() {
                   </Link>
                 </TableCell>
                 <TableCell>{competition.status}</TableCell>
-                <TableCell>{competition.startDate.toLocaleDateString()}</TableCell>
-                <TableCell>{competition.endDate.toLocaleDateString()}</TableCell>
+                <TableCell>{competition.startDate.toISOString().split('T')[0]}</TableCell>
+                <TableCell>{competition.endDate.toISOString().split('T')[0]}</TableCell>
                 <TableCell className="text-right">
                   <EntrySheet competition={competition} />
                 </TableCell>
