@@ -8,6 +8,7 @@ export const AdminNav = () => {
         <li><Link href={"/admin/superpowers"} className="block p-4 hover:bg-gray-100">Superpower</Link></li>
         <li><Link href={"/admin/companies"} className="block p-4 hover:bg-gray-100">Company</Link></li>
         <li><Link href={"/admin/categories"} className="block p-4 hover:bg-gray-100">Category</Link></li>
+        <li><Link href={"/admin/competitions"} className="block p-4 hover:bg-gray-100">Competition</Link></li>
       </ul>
     </nav>
   )

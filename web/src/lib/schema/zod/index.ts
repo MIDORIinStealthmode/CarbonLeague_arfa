@@ -26,7 +26,11 @@ export const ScoreReportScalarFieldEnumSchema = z.enum(['id','carbonEmissionId',
 
 export const CompetitionScalarFieldEnumSchema = z.enum(['id','name','startDate','endDate','status','year']);
 
-export const CompetitionEntryScalarFieldEnumSchema = z.enum(['id','competitionId','userId','superpowerId','order']);
+export const CompetitionEntryScalarFieldEnumSchema = z.enum(['id','competitionId','userId','superpowerId','order','entryAt','resultId']);
+
+export const CompetitionRewardScalarFieldEnumSchema = z.enum(['id','competitionId','rank','superpowerId','rewardAmount']);
+
+export const CompetitionResultScalarFieldEnumSchema = z.enum(['id','competitionId','userId','rank','totalScore','rewardReceived']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -34,7 +38,7 @@ export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
 
-export const CompetitinStatusSchema = z.enum(['UPCOMING','OPEN','CLOSED','FINISHED']);
+export const CompetitinStatusSchema = z.enum(['DRAFT','UPCOMING','OPEN','CLOSED','FINISHED','OUTDATED']);
 
 export type CompetitinStatusType = `${z.infer<typeof CompetitinStatusSchema>}`
 
@@ -150,6 +154,37 @@ export const CompetitionEntrySchema = z.object({
   userId: z.string(),
   superpowerId: z.string(),
   order: z.number().int(),
+  entryAt: z.coerce.date(),
+  resultId: z.string().nullable(),
 })
 
 export type CompetitionEntry = z.infer<typeof CompetitionEntrySchema>
+
+/////////////////////////////////////////
+// COMPETITION REWARD SCHEMA
+/////////////////////////////////////////
+
+export const CompetitionRewardSchema = z.object({
+  id: z.string().uuid(),
+  competitionId: z.string(),
+  rank: z.number().int(),
+  superpowerId: z.string().nullable(),
+  rewardAmount: z.number().int().nullable(),
+})
+
+export type CompetitionReward = z.infer<typeof CompetitionRewardSchema>
+
+/////////////////////////////////////////
+// COMPETITION RESULT SCHEMA
+/////////////////////////////////////////
+
+export const CompetitionResultSchema = z.object({
+  id: z.string().uuid(),
+  competitionId: z.string(),
+  userId: z.string(),
+  rank: z.number().int(),
+  totalScore: z.number().int(),
+  rewardReceived: z.boolean(),
+})
+
+export type CompetitionResult = z.infer<typeof CompetitionResultSchema>
