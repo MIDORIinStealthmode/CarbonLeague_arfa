@@ -144,6 +144,8 @@ model CompetitionReward {
   superpowerId  String?
   superpower    Superpower? @relation(fields: [superpowerId], references: [id])
   rewardAmount  Int?
+
+  @@unique([superpowerId])
 }
 
 model CompetitionResult {
