@@ -18,7 +18,30 @@ export const POST = async (request: Request, {params}: Params) => {
     include: { superpower: true }
   });
 
-  // Step:2 ユーザーごとにgroupBy
+  // Step 2: EntryしたSuperpowerのスコアを更新
+  await Promise.all(
+    competitionEntries.map(async (entry) => {
+      const company = await prisma.company.findUniqueOrThrow({
+        where: { id: entry.superpower.companyId },
+      })
+      const carbonEmission = await prisma.carbonEmission.findUniqueOrThrow({
+        where: { companyId_year: { companyId: company.id, year: competition.year } }
+      })
+      const scoreReport = await prisma.scoreReport.findUnique({
+        where: { carbonEmissionId: carbonEmission.id }
+      })
+      if (scoreReport && scoreReport.totalScore) {
+        await prisma.superpower.update({
+          where: { id: entry.superpowerId },
+          data: {
+            score: scoreReport.totalScore
+          }
+        })
+      }
+    })
+  )
+
+  // Step:3 ユーザーごとにgroupBy
   const entryByUser = competitionEntries.reduce<Record<string, typeof competitionEntries>>(
     (obj, competitionEntry) => {
       const userId = competitionEntry.userId
