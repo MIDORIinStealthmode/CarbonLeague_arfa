@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {CompetitionTable} from "@/app/admin/competitions/CompetitionTable";
 import {useState} from "react";
 import {CompetitionEditDialog} from "@/app/admin/competitions/CompetitionEditDialog";
+import {CompetitionRewardEditDialog} from "@/app/admin/competitions/CompetitionRewardEditDialog";
 
 type Props = {
   competitions: Competition[]
@@ -12,6 +13,7 @@ type Props = {
 
 export const CompetitionList = (props: Props) => {
   const [editId, setEditId] = useState<string>()
+  const [editRewardId, setEditRewardId] = useState<string>()
   const [create, setCreate] = useState<boolean>(false)
 
   return (
@@ -24,6 +26,7 @@ export const CompetitionList = (props: Props) => {
       <CompetitionTable
         competitions={props.competitions}
         onEdit={(id) => setEditId(id)}
+        onEditReward={(id) => setEditRewardId(id)}
       />
 
       <CompetitionEditDialog
@@ -31,6 +34,15 @@ export const CompetitionList = (props: Props) => {
         create={create}
         onClose={() => {
           setEditId(undefined)
+          setEditRewardId(undefined)
+          setCreate(false)
+        }}
+      />
+      <CompetitionRewardEditDialog
+        editId={editRewardId}
+        onClose={() => {
+          setEditId(undefined)
+          setEditRewardId(undefined)
           setCreate(false)
         }}
       />

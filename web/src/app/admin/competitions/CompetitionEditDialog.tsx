@@ -1,6 +1,6 @@
 'use client'
 
-import {Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {CompetitinStatusSchema, Competition, CompetitionSchema} from "@/lib/schema/zod";

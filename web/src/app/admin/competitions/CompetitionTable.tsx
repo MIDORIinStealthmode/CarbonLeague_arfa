@@ -24,9 +24,10 @@ import {FinishButton} from "@/app/admin/competitions/FinishButton";
 type Props = {
   competitions: Competition[]
   onEdit: (id: string) => void
+  onEditReward: (id: string) => void
 }
 
-export function CompetitionTable({competitions, onEdit}: Props) {
+export function CompetitionTable({competitions, onEdit, onEditReward}: Props) {
   const columns: ColumnDef<Competition>[] = [
     {accessorKey: "id"},
     {accessorKey: "name"},
@@ -38,9 +39,8 @@ export function CompetitionTable({competitions, onEdit}: Props) {
       accessorKey: "action",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <Button
-            onClick={() => onEdit(row.getValue('id'))}
-          >Edit</Button>
+          <Button onClick={() => onEditReward(row.getValue('id'))}>Reward</Button>
+          <Button onClick={() => onEdit(row.getValue('id'))}>Edit</Button>
           {['OPEN', 'CLOSED'].includes(row.getValue('status')) && (
             <FinishButton competitionId={row.getValue('id')} />
           )}
