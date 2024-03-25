@@ -39,7 +39,9 @@ export function CompetitionTable({competitions, onEdit, onEditReward}: Props) {
       accessorKey: "action",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <Button onClick={() => onEditReward(row.getValue('id'))}>Reward</Button>
+          {['OPEN', 'CLOSED'].includes(row.getValue('status')) && (
+            <Button onClick={() => onEditReward(row.getValue('id'))}>Reward</Button>
+          )}
           <Button onClick={() => onEdit(row.getValue('id'))}>Edit</Button>
           {['OPEN', 'CLOSED'].includes(row.getValue('status')) && (
             <FinishButton competitionId={row.getValue('id')} />
