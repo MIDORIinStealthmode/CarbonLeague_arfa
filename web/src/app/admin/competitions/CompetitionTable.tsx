@@ -19,29 +19,37 @@ import {
 import {Competition} from "@/lib/schema/zod";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
+import {FinishButton} from "@/app/admin/competitions/FinishButton";
 
 type Props = {
   competitions: Competition[]
   onEdit: (id: string) => void
+  onEditReward: (id: string) => void
 }
 
-
-export function CompetitionTable({competitions, onEdit}: Props) {
-  const columns: ColumnDef<Competition>[] = 
-  [
+export function CompetitionTable({competitions, onEdit, onEditReward}: Props) {
+  const columns: ColumnDef<Competition>[] = [
     {accessorKey: "id"},
     {accessorKey: "name"},
+    {accessorKey: "year"},
     {accessorKey: "startDate"},
     {accessorKey: "endDate"},
+    {accessorKey: "status"},
     {
       accessorKey: "action",
-      cell: ({ row, getValue }) => (
+      cell: ({ row }) => (
         <div className="flex gap-2">
-          <Button onClick={() => onEdit(row.getValue('id'))}>End Competition</Button>
+          {['DRAFT', 'UPCOMING', 'OPEN', 'CLOSED'].includes(row.getValue('status')) && (
+            <Button onClick={() => onEditReward(row.getValue('id'))}>Reward</Button>
+          )}
+          <Button onClick={() => onEdit(row.getValue('id'))}>Edit</Button>
+          {['OPEN', 'CLOSED'].includes(row.getValue('status')) && (
+            <FinishButton competitionId={row.getValue('id')} />
+          )}
         </div>
       )
-    }]
-
+    },
+  ]
 
   const table = useReactTable({
     data: competitions,

@@ -5,7 +5,7 @@ import {SuperpowerSchema} from "@/lib/schema/zod";
 export const GET = async (request: Request) => {
   const superpowers = await prisma.superpower.findMany()
 
-  return NextResponse.json({ superpowers });
+  return NextResponse.json(superpowers);
 }
 
 export const POST = async (request: Request) => {

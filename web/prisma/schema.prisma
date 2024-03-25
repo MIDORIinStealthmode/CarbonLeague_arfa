@@ -34,6 +34,7 @@ model User {
   address String @unique
 
   entries CompetitionEntry[]
+  results CompetitionResult[]
 }
 
 model Company {
@@ -65,6 +66,7 @@ model Superpower {
   company    Company  @relation(fields: [companyId], references: [id])
 
   entries CompetitionEntry[]
+  rewards CompetitionReward[]
 }
 
 model CarbonEmission {
@@ -80,9 +82,9 @@ model CarbonEmission {
   revenue     Float?
   revenueUnit String?
 
-  @@unique([companyId, year])
-
   scoreReport ScoreReport?
+
+  @@unique([companyId, year])
 }
 
 model ScoreReport {
@@ -96,10 +98,12 @@ model ScoreReport {
 }
 
 enum CompetitinStatus {
-  UPCOMING
-  OPEN
-  CLOSED
-  FINISHED
+  DRAFT // ユーザーに見えない
+  UPCOMING // ユーザーに見えているがエントリーできない
+  OPEN // エントリー可能
+  CLOSED // エントリー終了
+  FINISHED // 結果発表済み
+  OUTDATED // ユーザーに見えない過去のコンペ
 }
 
 model Competition {
@@ -111,18 +115,48 @@ model Competition {
   year      Int              @default(2022)
 
   entries CompetitionEntry[]
+  rewards CompetitionReward[]
+  results CompetitionResult[]
 }
 
 model CompetitionEntry {
-  id            String      @id @default(uuid())
+  id            String             @id @default(uuid())
   competitionId String
-  competition   Competition @relation(fields: [competitionId], references: [id])
+  competition   Competition        @relation(fields: [competitionId], references: [id])
   userId        String
-  user          User        @relation(fields: [userId], references: [id])
+  user          User               @relation(fields: [userId], references: [id])
   superpowerId  String
-  superpower    Superpower  @relation(fields: [superpowerId], references: [id])
+  superpower    Superpower         @relation(fields: [superpowerId], references: [id])
   order         Int
+  entryAt       DateTime           @default(now()) @updatedAt
+  resultId      String?
+  result        CompetitionResult? @relation(fields: [resultId], references: [id])
 
   @@unique([competitionId, userId, superpowerId])
   @@unique([competitionId, userId, order])
+}
+
+model CompetitionReward {
+  id            String      @id @default(uuid())
+  competitionId String
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  rank          Int
+  superpowerId  String?
+  superpower    Superpower? @relation(fields: [superpowerId], references: [id])
+  rewardAmount  Int?
+
+  @@unique([superpowerId])
+}
+
+model CompetitionResult {
+  id             String      @id @default(uuid())
+  competitionId  String
+  competition    Competition @relation(fields: [competitionId], references: [id])
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  rank           Int
+  totalScore     Int
+  rewardReceived Boolean     @default(false)
+
+  entries CompetitionEntry[]
 }
