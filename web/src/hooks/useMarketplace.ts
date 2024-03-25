@@ -3,7 +3,7 @@ import {
   useAddress, useBuyDirectListing,
   useCancelDirectListing,
   useContract,
-  useCreateDirectListing,
+  useCreateDirectListing, useDirectListings,
   useValidDirectListings
 } from "@thirdweb-dev/react";
 import {NFT} from "@thirdweb-dev/sdk";
@@ -14,12 +14,17 @@ export const useMarketplace = () => {
 
 export const useListings = (filter: MarketplaceFilter) => {
   const { contract } = useMarketplace()
+  return useDirectListings(contract, filter)
+}
+
+export const useValidListings = (filter: MarketplaceFilter) => {
+  const { contract } = useMarketplace()
   return useValidDirectListings(contract, filter)
 }
 
 export const useMyListings = () => {
   const address = useAddress()
-  return useListings({ seller: address })
+  return useValidListings({ seller: address })
 }
 
 export const useCreateListing = (nft: NFT) => {
@@ -28,7 +33,7 @@ export const useCreateListing = (nft: NFT) => {
     data: listings,
     isLoading: listLoading,
     error: listError
-  } = useListings({ tokenId: nft.metadata.id });
+  } = useValidListings({ tokenId: nft.metadata.id });
   const listing = listings?.[0];
   const {
     mutateAsync: createDirectListing,

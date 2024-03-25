@@ -6,6 +6,8 @@ import Link from "next/link";
 import {useUser} from "@thirdweb-dev/react";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useMySuperpowers} from "@/hooks/useSuperpower";
+import {useQuery} from "@tanstack/react-query";
+import {useListings} from "@/hooks/useMarketplace";
 
 const Item = (props: { isLoading: boolean, complete: boolean, disable: boolean, title: string, description: string, link?: string }) => {
   if (props.isLoading) {
@@ -36,21 +38,25 @@ const Item = (props: { isLoading: boolean, complete: boolean, disable: boolean, 
 }
 
 export const OnboardingChecklist = () => {
-  const { isLoggedIn, isLoading: loginIsLoading } = useUser()
+  const { user, isLoggedIn, isLoading: loginIsLoading } = useUser()
   const { data, isLoading: superpowerIsLoading } = useMySuperpowers()
+  const { data: hasEntryData, isLoading: hasEntryIsLoading } = useQuery<{ hasEntry: boolean }>(['competitions', 'entry'], () => {
+    return fetch('/api/competitions/entry').then(res => res.json())
+  }, { enabled: isLoggedIn })
+  const { data: listings, isLoading: listingIsLoading } = useListings({ seller: user?.address || '', count: 1 })
 
-  const isLoading = loginIsLoading || superpowerIsLoading
+  const isLoading = loginIsLoading || superpowerIsLoading || hasEntryIsLoading || listingIsLoading
 
   const login = isLoggedIn
   const superpower = data?.length || 0
-  const competition = false
-  const shop = false
+  const competition = hasEntryData?.hasEntry || false
+  const shop = !!listings?.length
 
   const steps = [
     { title: 'ログインする', description: '右上のSign Up & Sign Inからログインをしよう', link: '/profile', complete: login },
     { title: `Superpowerを3つ購入する(${superpower}/3)`, description: 'ETHかクレジットカードでお気に入りのSuperpowerを購入しよう', link: '/marketplace', complete: superpower > 2 },
     { title: 'コンペにエントリーする', description: 'Tutorial CompetitionにエントリーしてRewardを受け取ろう', link: '/competitions', complete: competition },
-    { title: 'ショップに出品する', description: 'Superpowerを出品してみよう', link: '/profile', complete: shop },
+    { title: 'ショップに出品する', description: '自分の持っているSuperpowerをクリックして出品してみよう', link: '/profile', complete: shop },
   ]
 
   return (
