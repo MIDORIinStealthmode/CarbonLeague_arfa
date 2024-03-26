@@ -1,11 +1,11 @@
 'use client'
 
-import {useListings} from "@/hooks/useMarketplace";
+import {useValidListings} from "@/hooks/useMarketplace";
 import {ListingCard} from "@/app/(app)/common/ListingCard";
 import Link from "next/link";
 
 export const TrendingNft = () => {
-  const { data, isLoading } = useListings({
+  const { data, isLoading } = useValidListings({
     start: 0,
     count: 5,
   })

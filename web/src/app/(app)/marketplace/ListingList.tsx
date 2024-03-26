@@ -2,7 +2,7 @@
 
 import {ListingCard} from "../common/ListingCard";
 import {BuyListingDialog} from "./BuyListingDialog";
-import {useListings} from "@/hooks/useMarketplace";
+import {useValidListings} from "@/hooks/useMarketplace";
 import {useEffect, useRef, useState} from "react";
 import {useIntersectionObserver} from "@/hooks/useIntersectionObserver";
 import {DirectListingV3} from "@thirdweb-dev/sdk";
@@ -14,7 +14,7 @@ export const ListingList = () => {
   const [hasMore, setHasMore] = useState(true)
   const [listing, setListing] = useState<DirectListingV3>()
   const ref = useRef(null)
-  const {data: listings, isLoading, error} = useListings({
+  const {data: listings, isLoading, error} = useValidListings({
     start: 0,
     count: PER_PAGE * page,
   });
