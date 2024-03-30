@@ -21,13 +21,11 @@ export const mintSuperpower = inngest.createFunction(
       if (!superpower.mintcalled) {
         void superpowerContract.call('safeMint', [address])
         await prisma.superpower.update({where: {id: superpowerId}, data: { mintcalled: true }})
+        await inngest.send({ name: 'superpower.mint', data: { superpowerId, address, tokenId } })
         return;
       } else {
-
-        if (superpower.minted) {
-          return;
-        }
-        await superpowerContract.call('ownerOf', [tokenId])
+        if (superpower.minted) { return } // 既にmint済みの場合は何もしない
+        await superpowerContract.call('ownerOf', [tokenId]) // tokenIdがmintされているか確認 いなければエラーが発生する
         await prisma.superpower.update({where: {id: superpowerId}, data: {minted: true}})
         return;
       }
