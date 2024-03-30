@@ -88,7 +88,6 @@ export const POST = async (request: Request, {params}: Params) => {
     return new Response(null, { status: 400 })
   }
 
-
   const entries = await prisma.$transaction([
     prisma.competitionEntry.deleteMany({
       where: {
