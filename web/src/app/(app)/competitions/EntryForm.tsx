@@ -6,6 +6,7 @@ import { useMySuperpowers } from "@/hooks/useSuperpower"
 import {Competition, CompetitionEntry, Superpower} from "@/lib/schema/zod"
 import { useMutation } from "@tanstack/react-query"
 import {FormEvent, useState} from "react";
+import { useRouter } from 'next/navigation'
 import {Button} from "@/components/ui/button";
 import {SheetClose} from "@/components/ui/sheet";
 import {Loader2} from "lucide-react";
@@ -24,6 +25,7 @@ export const EntryForm = (props: Props) => {
   const [token3, setToken3] = useState<string  | null>(props.entries && props.entries[2]?.superpower.tokenId?.toString() || null)
   const invalid = !token1 || !token2 || !token3
   const [submitted, setSubmitted] = useState(false)
+  const router = useRouter()
 
   const { mutate, isLoading: mutateIsLoading } = useMutation({
     mutationFn: (data: CompetitionEntryRequestBody) => fetch(`/api/competitions/${competition.id}/entries`, {
@@ -60,6 +62,7 @@ export const EntryForm = (props: Props) => {
       mutate(data, {
         onSuccess: () => {
           setSubmitted(true)
+          router.refresh()
         }
       })
     }

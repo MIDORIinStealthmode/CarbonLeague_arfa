@@ -21,6 +21,7 @@ import {useEffect, useMemo, useState} from "react";
 import Image from "next/image";
 import {UserEntry} from "@/app/api/competitions/[id]/entries/schema";
 import {useAddress} from "@thirdweb-dev/react";
+import {Loader2} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {ClaimReward} from "@/app/(app)/competitions/[competitionId]/ClaimReward";
 
@@ -33,12 +34,15 @@ type ResultWithSuperpower = CompetitionResult & { superpower: Superpower, user: 
 
 export const ResultTable = ({ competition }: Props) => {
   const [data, setData] = useState<ResultWithSuperpower[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const selfAddress = useAddress()
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       const res = await fetch(`/api/competitions/${competition.id}/results`)
       const jsonData = await res.json() as { results: ResultWithSuperpower[] }
+      setIsLoading(false)
       setData(jsonData.results)
       console.log(jsonData)
     };
@@ -114,6 +118,11 @@ export const ResultTable = ({ competition }: Props) => {
 
   return (
     <div className="rounded-md border bg-white">
+      {isLoading ? (
+        <div className="flex flex-col gap-8 flex-1 justify-center items-center">
+          <Loader2 className="h-20 w-20 animate-spin" />
+        </div>
+      ) :
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -156,6 +165,7 @@ export const ResultTable = ({ competition }: Props) => {
           )}
         </TableBody>
       </Table>
+      }
     </div>
   )
 }
