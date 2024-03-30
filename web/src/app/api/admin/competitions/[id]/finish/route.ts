@@ -18,7 +18,7 @@ export const POST = async (request: Request, {params}: Params) => {
     include: { superpower: true }
   });
 
-  // Step 2: EntryしたSuperpowerのスコアを更新
+  // Step 2: EntryしたSuperpowerのスコアとYearを更新
   await Promise.all(
     competitionEntries.map(async (entry) => {
       const company = await prisma.company.findUniqueOrThrow({
@@ -34,7 +34,8 @@ export const POST = async (request: Request, {params}: Params) => {
         await prisma.superpower.update({
           where: { id: entry.superpowerId },
           data: {
-            score: scoreReport.totalScore
+            score: scoreReport.totalScore,
+            year: competition.year
           }
         })
       }
