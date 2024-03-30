@@ -55,7 +55,7 @@ export const OnboardingChecklist = () => {
   const shop = isLoggedIn && !!listings?.length
 
   const steps = [
-    { title: 'ログインする', description: '右上のSign Up & Sign Inからログインをしよう', link: '/profile', complete: login },
+    { title: 'ログインする', description: '右上のSign Up & Sign Inからログインをしよう', complete: login },
     { title: `Superpowerを3つ購入する(${superpower}/3)`, description: 'ETHかクレジットカードでお気に入りのSuperpowerを購入しよう', link: '/marketplace', complete: superpower > 2 },
     { title: 'コンペにエントリーする', description: 'Tutorial CompetitionにエントリーしてRewardを受け取ろう', link: '/competitions', complete: competition },
     { title: 'ショップに出品する', description: '自分の持っているSuperpowerをクリックして出品してみよう', link: '/profile', complete: shop },
