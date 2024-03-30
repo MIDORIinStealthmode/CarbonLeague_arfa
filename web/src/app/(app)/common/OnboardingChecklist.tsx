@@ -45,12 +45,14 @@ export const OnboardingChecklist = () => {
   }, { enabled: isLoggedIn })
   const { data: listings, isLoading: listingIsLoading } = useListings({ seller: user?.address || '', count: 1 })
 
-  const isLoading = loginIsLoading || superpowerIsLoading || hasEntryIsLoading || listingIsLoading
+  console.log(loginIsLoading, superpowerIsLoading, hasEntryIsLoading, listingIsLoading)
+
+  const isLoading = loginIsLoading ? true : isLoggedIn ? superpowerIsLoading || hasEntryIsLoading || listingIsLoading : false
 
   const login = isLoggedIn
-  const superpower = data?.length || 0
-  const competition = hasEntryData?.hasEntry || false
-  const shop = !!listings?.length
+  const superpower = isLoggedIn && data?.length || 0
+  const competition = isLoggedIn && hasEntryData?.hasEntry || false
+  const shop = isLoggedIn && !!listings?.length
 
   const steps = [
     { title: 'ログインする', description: '右上のSign Up & Sign Inからログインをしよう', link: '/profile', complete: login },
