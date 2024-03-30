@@ -33,7 +33,9 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
       tokenId: z.union([z.number(), z.string()]).optional().nullable(),
       rank: z.preprocess(v => Number(v), z.number().int()),
       score: z.preprocess(v => Number(v), z.number().int()),
-      year: z.preprocess(v => Number(v), z.number().int())
+      year: z.preprocess(v => Number(v), z.number().int()),
+      minted: z.boolean().optional(),
+      mintcalled: z.boolean().optional(),
     })),
   })
   const { setValue } = form
