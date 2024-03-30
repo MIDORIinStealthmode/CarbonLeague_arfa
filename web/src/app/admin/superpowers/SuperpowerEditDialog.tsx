@@ -30,7 +30,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
   const form = useForm<Superpower>({
     resolver: zodResolver(SuperpowerSchema.extend({
       id: create ? z.string().optional() : z.string(),
-      tokenId: z.string().optional().nullable(),
+      tokenId: z.preprocess(v => v && String(v), z.string().optional().nullable()),
       rank: z.preprocess(v => Number(v), z.number().int()),
       score: z.preprocess(v => Number(v), z.number().int()),
       year: z.preprocess(v => Number(v), z.number().int())
