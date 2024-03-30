@@ -17,7 +17,7 @@ export const maxDuration = 10
 export const POST = async (request: Request, {params: { id } }: Params) => {
   const { address } = await request.json() as { address: string }
   const superpower = await prisma.superpower.findUniqueOrThrow({ where: { id } })
-  await inngest.send({ name: 'superpower.mint',  data: { id: superpower.id, address } })
+  await inngest.send({ name: 'superpower.mint',  data: { superpowerId: superpower.id, address } })
 
   return NextResponse.json(superpower)
 }
