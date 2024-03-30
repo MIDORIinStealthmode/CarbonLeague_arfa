@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import {NextResponse} from "next/server";
 import {hexToNumber} from "web3-utils";
 import {SuperpowerService} from "@/lib/services/Superpower";
+import {inngest} from "@/lib/inngest";
 
 type Params = {
   params: {
@@ -15,7 +16,8 @@ export const maxDuration = 10
 
 export const POST = async (request: Request, {params: { id } }: Params) => {
   const { address } = await request.json() as { address: string }
-  const superpower = await SuperpowerService.mint({superpowerId: id, address})
+  const superpower = await prisma.superpower.findUniqueOrThrow({ where: { id } })
+  await inngest.send({ name: 'superpower.mint',  data: { id: superpower.id, address } })
 
   return NextResponse.json(superpower)
 }
