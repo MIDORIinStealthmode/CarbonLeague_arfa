@@ -30,7 +30,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
   const form = useForm<Superpower>({
     resolver: zodResolver(SuperpowerSchema.extend({
       id: create ? z.string().optional() : z.string(),
-      tokenId: z.string().optional().nullable(),
+      tokenId: z.union([z.number(), z.string()]).optional().nullable(),
       rank: z.preprocess(v => Number(v), z.number().int()),
       score: z.preprocess(v => Number(v), z.number().int()),
       year: z.preprocess(v => Number(v), z.number().int())
@@ -42,7 +42,7 @@ export const SuperpowerEditDialog = ({ editId, create, onClose }: Props) => {
     queryKey: ['superpowers', editId],
     queryFn: async () => {
       const res = await fetch(`/api/admin/superpowers/${editId}`);
-      const {tokenId, ...data} = await res.json();
+      const data = await res.json();
       form.reset(data);
       return data;
     },
