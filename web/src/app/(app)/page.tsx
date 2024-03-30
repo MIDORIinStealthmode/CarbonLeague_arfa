@@ -1,5 +1,4 @@
 import {TrendingNft} from "@/app/(app)/TrendingNft";
-import NextImage from 'next/image';
 import {OnboardingChecklist} from "@/app/(app)/common/OnboardingChecklist";
 
 export default async function Home() {

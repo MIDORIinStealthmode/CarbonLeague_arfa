@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import {NextResponse} from "next/server";
 import {SuperpowerService} from "@/lib/services/Superpower";
+import {inngest} from "@/lib/inngest";
 
 type Params = {
   params: {
@@ -26,15 +27,15 @@ export const POST = async (request: Request, { params }: Params) => {
     return NextResponse.json({ message: 'リワードはすでに受け取っています' });
   }
 
-  rewards.forEach((reward) => {
+  await Promise.all(rewards.map(async (reward) => {
     // ここでリワードを付与する
     if (reward.superpowerId) {
-      sendSuperpower(address, reward.superpowerId)
+      await inngest.send({ name: 'superpower.mint',  data: { superpowerId: reward.superpowerId, address } })
     }
     if (reward.rewardAmount) {
       // sendRewardAmount(address, reward.rewardAmount)
     }
-  })
+  }))
 
   await prisma.competitionResult.update({
     where: { id: params.resultId },
@@ -43,10 +44,3 @@ export const POST = async (request: Request, { params }: Params) => {
 
   return NextResponse.json({ message: 'リワードを付与しました' });
 }
-
-// 将来的には、リワードを付与する関数はバックグラウンド処理で実行する
-const sendSuperpower = async (address: string, superpowerId: string) => {
-  const superpower = await SuperpowerService.mint({superpowerId, address})
-}
-
-

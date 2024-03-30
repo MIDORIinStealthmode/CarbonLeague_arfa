@@ -51,11 +51,13 @@ model Category {
 }
 
 model Superpower {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   tokenId     Int?
   imageUrl    String
   name        String
   description String
+  mintcalled  Boolean @default(false)
+  minted      Boolean @default(false)
 
   rank       Int
   score      Int

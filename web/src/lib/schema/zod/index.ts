@@ -18,7 +18,7 @@ export const CompanyScalarFieldEnumSchema = z.enum(['id','name']);
 
 export const CategoryScalarFieldEnumSchema = z.enum(['id','name']);
 
-export const SuperpowerScalarFieldEnumSchema = z.enum(['id','tokenId','imageUrl','name','description','rank','score','year','categoryId','companyId']);
+export const SuperpowerScalarFieldEnumSchema = z.enum(['id','tokenId','imageUrl','name','description','mintcalled','minted','rank','score','year','categoryId','companyId']);
 
 export const CarbonEmissionScalarFieldEnumSchema = z.enum(['id','year','companyId','scope1','scope2','scope3','revenue','revenueUnit']);
 
@@ -89,6 +89,8 @@ export const SuperpowerSchema = z.object({
   imageUrl: z.string(),
   name: z.string(),
   description: z.string(),
+  mintcalled: z.boolean(),
+  minted: z.boolean(),
   rank: z.number().int(),
   score: z.number().int(),
   year: z.number().int(),
