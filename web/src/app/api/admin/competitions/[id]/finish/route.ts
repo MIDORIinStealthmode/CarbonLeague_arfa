@@ -12,13 +12,16 @@ type Params = {
 // コンペを終了する
 //  - コンペのエントリーを集計して、ランキング(CompetitionResult)を作成する
 export const POST = async (request: Request, {params}: Params) => {
+  console.log('1')
   const competition = await prisma.competition.findUniqueOrThrow({where: { id: params.id }})
 
+  console.log('2')
   // Step 1: 特定のcompetitionIdに紐づくCompetitionEntryを取得
   const competitionEntries = await prisma.competitionEntry.findMany({
     where: { competitionId: competition.id },
     include: { superpower: true }
   });
+  console.log('3')
 
   // Step 2: EntryしたSuperpowerのスコアとYearを更新
   await Promise.all(
@@ -43,6 +46,7 @@ export const POST = async (request: Request, {params}: Params) => {
       }
     })
   )
+  console.log('4')
 
   // データ取り直し
   const renewedCompetitionEntries = await prisma.competitionEntry.findMany({
@@ -50,6 +54,7 @@ export const POST = async (request: Request, {params}: Params) => {
     include: { superpower: true }
   });
 
+  console.log('5')
   // Step:3 ユーザーごとにgroupBy
   const entryByUser = renewedCompetitionEntries.reduce<Record<string, typeof competitionEntries>>(
     (obj, competitionEntry) => {
@@ -61,6 +66,7 @@ export const POST = async (request: Request, {params}: Params) => {
     },
     {}
   )
+  console.log('6')
 
   // Step: 3 ユーザーごとにtotalScoreを計算してランキングをつける
   const results = Object.entries(entryByUser).map(([userId, entries]) => {
@@ -81,6 +87,7 @@ export const POST = async (request: Request, {params}: Params) => {
     }
   })
 
+  console.log('7')
   // Step: 4 ステータスを更新してランキングを保存
   await prisma.$transaction([
     prisma.competitionResult.deleteMany({
@@ -102,6 +109,7 @@ export const POST = async (request: Request, {params}: Params) => {
       }
     })),
   ])
+  console.log('8')
 
   return NextResponse.json({});
 }
