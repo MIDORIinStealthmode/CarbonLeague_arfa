@@ -20,7 +20,7 @@ export const GET = async (request: Request, {params}: Params) => {
 
 export const PUT = async (request: Request, {params}: Params) => {
   const rawData = await request.json()
-  const data = SuperpowerSchema.omit({ id: true }).parse(rawData)
+  const data = SuperpowerSchema.omit({ id: true, tokenId: true }).parse(rawData)
   const superpower = await prisma.superpower.update({ where: { id: params.id }, data })
 
   return NextResponse.json(superpower);
