@@ -42,8 +42,14 @@ export const POST = async (request: Request, {params}: Params) => {
     })
   )
 
+  // データ取り直し
+  const renewedCompetitionEntries = await prisma.competitionEntry.findMany({
+    where: { competitionId: competition.id },
+    include: { superpower: true }
+  });
+
   // Step:3 ユーザーごとにgroupBy
-  const entryByUser = competitionEntries.reduce<Record<string, typeof competitionEntries>>(
+  const entryByUser = renewedCompetitionEntries.reduce<Record<string, typeof competitionEntries>>(
     (obj, competitionEntry) => {
       const userId = competitionEntry.userId
       if (!obj[userId]) obj[userId] = [];
